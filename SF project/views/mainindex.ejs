@@ -10,16 +10,17 @@
     <!-- Header -->
     <header id="header" class="alt">
         <h1><a href="#"><p class="userText"><%=user%></p> 님 환영합니다.</a></h1>
-        <a href="#nav">Menu</a>
+        <form action="/logout" method="get" style="display: inline-block;"><input type="submit" value="로그아웃"></form>
+        <!-- <a href="#nav">Menu</a> -->
     </header>
     <!-- Nav -->
-    <nav id="nav">
+    <!-- <nav id="nav">
         <ul class="links">
             <li><a href="#">홈</a></li>
             <li><a href="#">센서</a></li>
             <li><a href="#">재료</a></li>
         </ul>
-    </nav>
+    </nav> -->
     <!-- Banner -->
     <section id="banner">
         
@@ -37,7 +38,7 @@
                             현재 천장은 _(?)_ 상태입니다.<br></b></p>
                             <ul class="actions">
                                 <li>
-                                    <a href="#" class="button alt">바로가기</a>
+                                    <a href="/manage/illum" class="button alt">바로가기</a>
                                 </li>
                             </ul>
                         </div>
@@ -51,7 +52,7 @@
                             </p>
                             <ul class="actions">
                                 <li>
-                                    <a href="#" class="button alt">바로가기</a>
+                                    <a href="/manage/th" class="button alt">바로가기</a>
                                 </li>
                             </ul>
                         </div>
@@ -65,7 +66,7 @@
                             </p>
                             <ul class="actions">
                                 <li>
-                                    <a href="#" class="button alt">바로가기</a>
+                                    <a href="/manage/th" class="button alt">바로가기</a>
                                 </li>
                             </ul>
                         </div>
@@ -78,6 +79,11 @@
                             B재고량 : (?) , 상태 : (?)<br>
                             C재고량 : (?) , 상태 : (?)<br></b>
                             </p>
+                            <ul class="actions">
+                                <li>
+                                    <a href="/manage/stock" class="button alt">바로가기</a>
+                                </li>
+                            </ul>
                         </div>
                     </article>
                     

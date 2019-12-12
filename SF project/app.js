@@ -38,10 +38,13 @@ let authenticated = false;
 app.get('/',(req,res)=>{
     let sess = req.session;
     if(sess.user) {
-        res.render('main',{user:sess.user});
+        p.getConnection((err,connection)=>{
+            
+        });
+        res.render('mainindex',{user:sess.user});
     }
     else{
-        res.render('login');
+        res.render('testlogin');
     }
 });
 
@@ -83,7 +86,7 @@ app.post('/login',(req,res)=>{
         const select_query = `
         select USER_ID, USER_PW, USER_NAME
         from users
-        where USER_ID = ? and USER_PW = ?;
+        where binary(USER_ID) = ? and binary(USER_PW) = ?;
         `;
         connection.query(select_query,user,(err,result)=>{
             if(err){
