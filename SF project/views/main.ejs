@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SF | 관리</title>
+</head>
+<body>
+    <%if(user){%>
+        <div>
+            <p style="display: inline-block;">로그인 된 유저 : <b><%=user%></b></p>
+            <form action="/logout" method="get" style="display: inline-block;">
+                <input type="submit" value="로그아웃" style="width: 100px;">
+            </form>
+        </div>
+    <%}%>
+    <div><a href="/manage/stock">재고</a></div>
+    <div><a href="/manage/th">온/습도</a></div>
+    <div><a href="/manage/illum">조도</a></div>
+</body>
+</html>

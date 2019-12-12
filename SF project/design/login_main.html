@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SF연습생</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script type="text/javascript">
+    if (<%= isalert%>)
+        alert('아이디 / 비밀번호를 확인해주세요!');
+    </script>
+</head>
+
+<body>
+    <!-- Four -->
+            
+    <section id="four" class="wrapper style2 special">
+
+        <div class="inner">
+            
+            <header class="major narrow">
+                <h2>SF 사이트 입니다</h2>
+                <p>로그인을 해주세요</p>
+            </header>
+            <form action="#" method="POST">
+                <div class="container 75%">
+                    <div class="row uniform 50%">
+                        <div class="12u$">
+                            <input type="text" name="userid" class="login" placeholder="아이디">
+                        </div>
+                        <div class="12u$">
+                            <input type="password" name="userpw" class="login" placeholder="비밀번호">
+                        </div>
+                    </div>
+                </div>
+                <ul class="actions">
+                    <li><input type="submit" class="special" value="Sign in" /></li>
+                    <li><input type="reset" class="alt" value="Sign up" /></li>
+                </ul>
+            </form>
+        </div>
+    </section>
+</body>
+
+</html>
