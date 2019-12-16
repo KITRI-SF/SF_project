@@ -90,13 +90,69 @@ app.get('/manage/:mode',(req,res)=>{
     else {
         switch(mode){
             case 'stock': 
-                res.render('stock');
+                res.render('stock',{user:sess.user});
             break;
             case 'illum': 
-                res.render('lighttest');
+                p.getConnection((err,connection)=>{
+                    if(err){
+                        connection.release();
+                        throw err;
+                    }
+                    let illumQuery = `
+                        select sensor_data "illum", date_format(check_date,'%Y-%m-%d %H:%i:%s') "check_date"
+                        from sensors
+                        where sensor_id = 4
+                            and check_date > subdate(now(), interval 30 minute)
+                        order by check_date;
+                    `;
+                    connection.query(illumQuery,(err,results)=>{
+                        if(err){
+                            connection.release();
+                            throw err;
+                        }
+                        connection.release();
+                        var illum = new Array();
+                        var date = new Array();
+                        results.forEach(result => {
+                            illum.push(result.illum);
+                            date.push(`"${result.check_date}"`);
+                        });
+                        res.render('lighttest',{user:sess.user, illum:illum, date:date});
+                    });
+                });
+                
             break;
             case 'th': 
-                res.render('th');
+                p.getConnection((err, connection)=>{
+                    if(err){
+                        connection.release();
+                        throw err;
+                    }
+                    let thQuery = `
+                        select t.sensor_data "temp", h.sensor_data "humid", date_format(t.check_date,'%Y-%m-%d %H:%i:%s') "check_date"
+                        from (select * from sensors where sensor_id=1 order by check_date desc) t,
+                        (select * from sensors where sensor_id=2 order by check_date desc) h
+                        where t.check_date = h.check_date 
+                            and t.check_date > subdate(now(), interval 30 minute)
+                        order by t.check_date;
+                    `;
+                    connection.query(thQuery,(err,results)=>{
+                        if(err){
+                            connection.release();
+                            throw err;
+                        }
+                        connection.release();
+                        var temp = new Array();
+                        var  humid = new Array();
+                        var date = new Array();
+                        results.forEach(result => {
+                            temp.push(result.temp);
+                            humid.push(result.humid);
+                            date.push(`"${result.check_date}"`);
+                        });
+                        res.render('th',{temp:temp, humid:humid, date:date, user:sess.user})
+                    });
+                })
             break;
         }
     }
@@ -157,39 +213,39 @@ app.get('/logout',(req,res)=>{
         res.redirect('/');
 });
 
-// setInterval(()=>{
-//     let url = "http://183.101.196.144:4000/api/test";
-//     request(url,function(err,res,body){
-//         const result = JSON.parse(body);
-//         const temp = result.temp;
-//         const humid = result.humid;
-//         const gas = result.gas;
-//         const light = result.light;
-//         console.log(`{"temp":${temp}, "humid":${humid}, "gas":${gas}, "light":${light}}`);
-//         p.getConnection((err,connection)=>{
-//             if(err){
-//                 connection.release();
-//                 throw err;
-//             }
-//             let insertQuery = `
-//                 insert into sensors(SENSOR_ID, SENSOR_DATA, CHECK_DATE)
-//                 values
-//                 (1,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
-//                 (2,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
-//                 (3,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
-//                 (4,?,date_format(NOW(),'%y-%m-%d %H:%i:%s'));
-//             `;
+setInterval(()=>{
+    let url = "http://183.101.196.144:4000/api/test";
+    request(url,function(err,res,body){
+        const result = JSON.parse(body);
+        const temp = result.temp;
+        const humid = result.humid;
+        const gas = result.gas;
+        const light = result.light;
+        console.log(`{"temp":${temp}, "humid":${humid}, "gas":${gas}, "light":${light}}`);
+        p.getConnection((err,connection)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            let insertQuery = `
+                insert into sensors(SENSOR_ID, SENSOR_DATA, CHECK_DATE)
+                values
+                (1,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+                (2,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+                (3,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+                (4,?,date_format(NOW(),'%y-%m-%d %H:%i:%s'));
+            `;
 
-//             connection.query(insertQuery,[temp,humid,gas,light],(err,result)=>{
-//                 if(err){
-//                     connection.release();
-//                     throw err;
-//                 }
-//                 connection.release();
-//             });
-//         });
-//     });
-// },20000);
+            connection.query(insertQuery,[temp,humid,gas,light],(err,result)=>{
+                if(err){
+                    connection.release();
+                    throw err;
+                }
+                connection.release();
+            });
+        });
+    });
+},60000);
 
 // setInterval(()=>{
 //     console.log("SENSING");

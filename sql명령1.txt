@@ -1,0 +1,14 @@
+(select * from sensors where sensor_id=1 order by check_date desc);
+(select * from sensors where sensor_id=2 order by check_date desc);
+
+select t.sensor_id, t.sensor_data, h.sensor_id, h.sensor_data, t.check_date
+from (select * from sensors where sensor_id=1 order by check_date desc) t,
+(select * from sensors where sensor_id=2 order by check_date desc) h
+where t.check_date = h.check_date 
+    and t.check_date > subdate(now(), interval 30 minute)
+order by t.check_date;
+
+select sensor_data illum, date_format(check_date,'%Y-%m-%d %H:%i:%s') "check_date"
+from sensors
+where sensor_id = 4
+    and check_date > subdate(now(), interval 30 minute);

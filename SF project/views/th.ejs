@@ -3,8 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>관리 | 온/습도관리</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<link rel="stylesheet" href="../css/billboard.css">
+    <script src="../js/billboard.js"></script>
 </head>
 <body>
-       <span><a href="/">메인</a></span> > 온/습도 관리 페이지
+    <span><a href="/">메인</a></span> > 온/습도 관리 페이지 (유저 : <%=user%>)
+    <div id="chart"></div>
+    <br/>
 </body>
+
+<script>
+    var chart = bb.generate({
+        data: {
+            x: "x",
+            xFormat: "%Y-%m-%d %H:%M:%S",
+            columns: [
+                ["x", <%-date%>],
+                ["온도", <%=temp%>],
+                ["습도", <%=humid%>]
+            ],
+            types: {
+                습도: "area"
+            },
+            axes: {
+                습도: "y2"
+            }
+        },
+        color: {
+            pattern: [
+                "#ff7f0e",
+                "#1f77b4"
+                ]
+        },
+        axis: {
+            x: {
+                type: "timeseries",
+                localtime: true,
+                tick: {
+                    format: "%Y-%m-%d %H:%M:%S"
+                }
+            },
+            y: {
+                label: "온도 (℃)",
+                max: 40,
+                min: -20
+            },
+            y2: {
+                show: true,
+                label: "습도 (%)",
+                max: 100,
+                min: 0
+            }
+        },
+        bindto: "#chart"
+    });
+    </script>
+
 </html>
