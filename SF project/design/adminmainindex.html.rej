@@ -1,0 +1,9 @@
+diff a/SF project/design/adminmainindex.html b/SF project/design/adminmainindex.html	(rejected hunks)
+@@ -55,6 +55,7 @@
+                             </p>
+                             <ul class="actions">
+                                 <li>
++                                    <a href="temphum.html" class="button alt">바로가기</a>
+                                 </li>
+                             </ul>
+                         </div>
