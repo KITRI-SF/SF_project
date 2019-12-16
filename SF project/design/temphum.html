@@ -7,6 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="chartist-custom.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<link rel="stylesheet" href="billboard.css">
+    <script src="billboard.js"></script>
+
 </head>
 
 <body>
@@ -18,58 +22,15 @@
     <section id="main" class="wrapper">
         <div class="container">
             <header class="major special">
-                <div class="col-md-6">
-                    <div class="panel">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">온습도 그래프 입니다.</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div id="multiple-chart" class="ct-chart"></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="chart"></div>
             </header>
-            <table border="1" width="200" height="250" class="testtable">
-                <caption><b>온도 데이터</b><br><br></caption>
-                <tr align="center">
-                    <td rowspan="3">온도</td>
-                    <td>시간</td>
-                    <td>˚C</td>
-                    <td>비고</td>
-                </tr>
-                <tr align="center">
-                    <td>15:24</td>
-                    <td>27</td>
-                    <td>더움</td>
-                </tr>
-
-                <tr align="center">
-                    <td>15:32</td>
-                    <td>22</td>
-                    <td>적정온도</td>
-                </tr>
-            </table>
-             <table border="1" width="200" height="250" class="testtable">
-                <caption><b>습도 데이터</b><br><br></caption>
-               
-               
-                <tr align="center">
-                    <td rowspan="3">습도</td>
-                    <td>시간</td>
-                    <td>%</td>
-                    <td>비고</td>
-                </tr>
-                <tr align="center">
-                    <td>15:24</td>
-                    <td>45</td>
-                    <td>적정습도</td>
-                </tr>
-                <tr align="center">
-                    <td>15:32</td>
-                    <td>60</td>
-                    <td>습함</td>
-                </tr>
-            </table>
+            			<div align="center">
+						<!--창문이 열려있고 닫혀있음에 따라 버튼 색상이 바뀌게 하기
+							청색 : button special big, 검정색 : big -->
+							<p><h2>현 실태</h2></p>
+						<button class ="button special big">제습기 ON</button><br>
+						<button class ="big"> 난방기OFF </button>
+        				</div>
         </div>
     </section>
     <!-- Footer -->
@@ -92,35 +53,61 @@
     <script src="assets/js/main.js"></script>
     <script type="text/javascript"></script>
     <script src="chartist.min.js"></script>
-    <script>
-    $(function() {
-        var options;
-
-        var data = {
-            labels: ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30'],
-            series: [{
-                name: 'series-real',
-                data: [24, 25, 27, 20, 21, 25, 27, 20, 24, 20, 25, 25],
-            }, {
-                name: 'series-projection',
-                data: [50, 55, 45, 65, 45, 42, 40, 47, 55, 50, 48, 47],
-            }]
-        };
-
-
-        // line chart
-        options = {
-            height: "600px",
-            showPoint: true,
-            axisX: {
-                showGrid: false
-            },
-            lineSmooth: false,
-        };
-
-        new Chartist.Line('#multiple-chart', data, options);
-    });
-    </script>
+    
 </body>
+<script>
+var chart = bb.generate({
+    data: {
+        x: "x",
+        xFormat: "%Y-%m-%d %H:%M",
+        columns: [
+            ["x",
+                "2019-12-16 12:00",
+                "2019-12-16 12:30",
+                "2019-12-16 13:00",
+                "2019-12-16 13:30",
+                "2019-12-16 14:00",
+                "2019-12-16 14:30",
+                "2019-12-16 15:00"
+            ],
+            ["온도", 10, 15, 26, 26, 20, 13, 10],
+            ["습도", 30, 30, 20, 50, 25, 35, 30]
+        ],
+        types: {
+            습도: "area-spline"
+        },
+        axes: {
+            습도: "y2"
+        }
+    },
+    color: {
+    	pattern: [
+    		"#ff7f0e",
+    		"#1f77b4"
+    	]
+    },
+    axis: {
+        x: {
+            type: "timeseries",
+            localtime: true,
+            tick: {
+                format: "%Y-%m-%d %H:%M"
+            }
+        },
+        y: {
+            label: "온도 (℃)",
+            max: 40,
+            min: -20
+        },
+        y2: {
+            show: true,
+            label: "습도 (%)",
+            max: 100,
+            min: 0
+        }
+    },
+    bindto: "#chart"
+});
+</script>
 
 </html>
