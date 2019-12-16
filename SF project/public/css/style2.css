@@ -1,0 +1,52 @@
+*{
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	font-family: montserrat;
+}
+body{
+	min-height: 100vh;
+
+	background-image: linear-gradient(120deg,#ffffff,#ffffff);/*배경색 정하는곳 왼쪽부터 오른쪽*/
+}
+
+
+article span{
+	padding-left: 10%;
+}
+
+article .content{
+	text-align: center;
+}
+
+
+#one {
+	background-image: linear-gradient(120deg,#000000,#ffffff);
+}
+
+
+#header{
+	background-image: linear-gradient(120deg,#3497db,#8e44ad);/*배경색 정하는곳 왼쪽부터 오른쪽*/
+
+}
+#banner{
+	background-image: linear-gradient(120deg,#3497db,#8e44ad);/*배경색 정하는곳 왼쪽부터 오른쪽*/
+
+}
+
+.humimg img{	
+	width:200px;
+	height: auto;
+}
+
+.cldimg img{
+	width: 200px;
+}
+
+.tmpimg img{
+	width: 100px;
+}
+
+.boximg img{
+	width: 200px;
+}

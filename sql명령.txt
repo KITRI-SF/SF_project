@@ -1,0 +1,11 @@
+
+select s.sensor_id, sensor_data, status
+from (select sensor_id, sensor_data from sensors order by check_date desc limit 0,4) s, machine_status m
+where s.sensor_id = m. sensor_id;
+
+select ITEM_CATEGORY, ITEM_NAME, ITEM_STOCK
+from items
+where item_stock between 0 and 40
+order by item_stock;
+
+delete from sensors where check_date < subdate(now(),interval 5 minute);

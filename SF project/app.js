@@ -93,24 +93,7 @@ app.get('/manage/:mode',(req,res)=>{
                 res.render('stock');
             break;
             case 'illum': 
-                let selectQuery = `
-                    Select date_format(SENSING_DATE,'%y-%m-%d %H:%i:%s') "SENSING_DATE", SENSING_DATA
-                    from temperature_test;
-                `;
-                p.getConnection((err,connection)=>{
-                    if(err) {
-                        connection.release();
-                        throw err;
-                    }
-                    connection.query(selectQuery,(err,results)=>{
-                        if(err){
-                            connection.release();
-                            throw err;
-                        }
-                        connection.release();
-                        res.render('illum',{results:results});
-                    });
-                });
+                res.render('lighttest');
             break;
             case 'th': 
                 res.render('th');
