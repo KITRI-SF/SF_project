@@ -40,7 +40,7 @@ article .content{
 }
 
 .tmpimg img{
-	width: 200px;
+	width: 100px;
 }
 
 .boximg img{
@@ -55,4 +55,8 @@ article .content{
 .feature {
 	border-radius: 8px;
 	box-shadow: 3px 3px 5px black;
+}
+
+table th {
+	text-align: center;
 }
