@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="../design/assets/css/billboard.css">
+    <script src="../design/assets/js/billboard.js"></script>
+    <title>재고 페이지</title>
+</head>
+
+<body>
+
+    <span><a href="/">메인</a></span> > 재고 관리 페이지
+    <hr/>
+    <br/>
+    <div class="container mt-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="#item1" data-toggle="tab" class="nav-link active">제품 A</a></li class="nav-item">
+            <li class="nav-item"><a href="#item2" data-toggle="tab" class="nav-link">제품 B</a></li class="nav-item">
+            <li class="nav-item"><a href="#item3" data-toggle="tab" class="nav-link">제품 C</a></li class="nav-item">
+        </ul>
+
+        <div class="tab-content">
+            <div id="item1" class="container tab-pane active">
+                <div>
+                    <div id="AgaugeChart" style="width:400px; display: inline-block;"></div>
+                    <div id="ApieChart" style="width: 500px;  display: inline-block;"></div>
+                </div>
+            </div>
+            <div id="item2" class="container tab-pane">
+                <div id="BpieChart" style="width: 500px;  display: inline-block;"></div>
+            </div>
+            <div id="item3" class="container tab-pane">
+                c
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var Agchart = bb.generate({
+        data: {
+            columns: [ ["Stock", 10.4] ],
+            type: "gauge",
+            onclick: function(d, i) {
+                console.log("onclick", d, i);
+            },
+            onover: function(d, i) {
+                console.log("onover", d, i);
+            },
+            onout: function(d, i) {
+                console.log("onout", d, i);
+            }
+        },
+        gauge: {},
+        color: {
+            pattern: [
+                "#60B044",
+                "#F6C600",
+                "#F97600",
+                "#FF0000"
+            ],
+            threshold: {
+                values: [
+                    70,
+                    80,
+                    90,
+                    100
+                ]
+            }
+        },
+        size: {
+            height: 180
+        },
+        bindto: "#AgaugeChart"
+    });
+
+    var Apchart = bb.generate({
+        data: {
+            columns: [ ["A-A", 80], ["A-B", 68], ["A-C", 47] ],
+            type: "pie",
+            onclick: function(d, i) {
+                console.log("onclick", d, i);
+            },
+            onover: function(d, i) {
+                console.log("onover", d, i);
+            },
+            onout: function(d, i) {
+                console.log("onout", d, i);
+            }
+        },
+        color: {
+            pattern: [
+                "#aec7e8",
+                "#98df8a",
+                "#38Cf1a"
+            ]
+        },
+        bindto: "#ApieChart"
+    });
+
+    var Bpchart = bb.generate({
+        data: {
+            columns: [ ["B-A", 80], ["B-B", 68], ["B-C", 47] ],
+            type: "pie",
+            onclick: function(d, i) {
+                console.log("onclick", d, i);
+            },
+            onover: function(d, i) {
+                console.log("onover", d, i);
+            },
+            onout: function(d, i) {
+                console.log("onout", d, i);
+            }
+        },
+        color: {
+            pattern: [
+                "#aec7e8",
+                "#98df8a",
+                "#38Cf1a"
+            ]
+        },
+        bindto: "#BpieChart"
+    });
+</script>
+</html>
