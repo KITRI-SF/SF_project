@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="billboard.css">
+    <script src="billboard.js"></script>
+    <title>gauge&pie chart</title>
+</head>
+
+<body>
+    <div id="gaugeChart"></div>
+    <div id="pieChart"></div>
+</body>
+<script>
+var gchart = bb.generate({
+    data: {
+        columns: [
+            ["적재량", 60.4]
+        ],
+        type: "gauge",
+        onclick: function(d, i) {
+            console.log("onclick", d, i);
+        },
+        onover: function(d, i) {
+            console.log("onover", d, i);
+        },
+        onout: function(d, i) {
+            console.log("onout", d, i);
+        }
+    },
+    gauge: {},
+    color: {
+        pattern: [
+            "#60B044",
+            "#F6C600",
+            "#F97600",
+            "#FF0000"
+        ],
+        threshold: {
+            values: [
+                70,
+                80,
+                90,
+                100
+            ]
+        }
+    },
+    size: {
+        height: 180
+    },
+    bindto: "#gaugeChart"
+});
+
+var pchart = bb.generate({
+    data: {
+        columns: [
+            ["소재", 80],
+            ["제품", 100]
+        ],
+        type: "pie",
+        onclick: function(d, i) {
+            console.log("onclick", d, i);
+        },
+        onover: function(d, i) {
+            console.log("onover", d, i);
+        },
+        onout: function(d, i) {
+            console.log("onout", d, i);
+        }
+    },
+    color: {
+        pattern: [
+            "#aec7e8",
+            "#98df8a"
+        ]
+    },
+    bindto: "#pieChart"
+});
+</script>
+
+</html>
