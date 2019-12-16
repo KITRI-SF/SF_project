@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<link rel="stylesheet" href="billboard.css">
+    <script src="billboard.js"></script>
+
+    <title>chart</title>
+</head>
+
+<body>
+    <div id="chart"></div>
+</body>
+<script>
+var chart = bb.generate({
+    data: {
+        x: "x",
+        xFormat: "%Y-%m-%d %H:%M",
+        columns: [
+            ["x",
+                "2019-12-16 12:00",
+                "2019-12-16 12:30",
+                "2019-12-16 13:00",
+                "2019-12-16 13:30",
+                "2019-12-16 14:00",
+                "2019-12-16 14:30",
+                "2019-12-16 15:00"
+            ],
+            ["온도", 10, 15, 26, 26, 20, 13, 10],
+            ["습도", 30, 30, 20, 50, 25, 35, 30]
+        ],
+        types: {
+            습도: "area-spline"
+        },
+        axes: {
+            습도: "y2"
+        }
+    },
+    color: {
+    	pattern: [
+    		"#ff7f0e",
+    		"#1f77b4"
+    	]
+    },
+    axis: {
+        x: {
+            type: "timeseries",
+            localtime: true,
+            tick: {
+                format: "%Y-%m-%d %H:%M"
+            }
+        },
+        y: {
+            label: "온도 (℃)",
+            max: 40,
+            min: -20
+        },
+        y2: {
+            show: true,
+            label: "습도 (%)",
+            max: 100,
+            min: 0
+        }
+    },
+    bindto: "#chart"
+});
+</script>
+
+</html>
