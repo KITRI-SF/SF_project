@@ -6,24 +6,45 @@
     <link rel="stylesheet" href="../css/style_main.css">
 </head>
 
+<% 
+    var temp, humid, light;
+    var heater, dehumid, roof;
+
+    results.forEach(result => {
+        switch(result.sensor_id){
+            case 1:
+                temp = result.sensor_data;
+                heater = result.status;
+            break;
+
+            case 2:
+                humid = result.sensor_data;
+                dehumid = result.status;
+            break;
+
+            case 4:
+                light = result.sensor_data;
+                roof = result.status;
+            break;
+
+            default:
+            break;
+        }
+    });
+    heater = heater ? "on" : "off";
+    dehumid = dehumid ? "on" : "off";
+    roof = roof ? "open" : "close";
+%>
+
 <body class="landing">
     <!-- Header -->
     <header id="header" class="alt">
-        <h1><a href="#"><p class="userText"><%=user%></p> 님 환영합니다.</a></h1>
+        <h1><p class="userText"><%=user%></p> 님 환영합니다.</h1>
         <form action="/logout" method="get" style="display: inline-block;"><input type="submit" value="로그아웃"></form>
-        <!-- <a href="#nav">Menu</a> -->
     </header>
-    <!-- Nav -->
-    <!-- <nav id="nav">
-        <ul class="links">
-            <li><a href="#">홈</a></li>
-            <li><a href="#">센서</a></li>
-            <li><a href="#">재료</a></li>
-        </ul>
-    </nav> -->
     <!-- Banner -->
     <section id="banner">
-        
+        <img src="../img/exlogo4.png" alt=""/>
     </section>
     <!-- Navtwo -->
     <nav id="navtwo">
@@ -31,88 +52,99 @@
             <section id="one" class="wrapper style1">
                 <div class="inner">
                     <article class="feature left">
-                        <span class="cldimg" ><a href="#"><img src="../img/cloud.png" alt="" /></a></span>
+                        <span class="cldimg" ><img src="../img/cloud.png" alt="" /></span>
                         <div class="content">
                             <h2>SMART FACTORY <br>조도</h2>
-                            <p><b>현재 조도는 (?) 입니다.<br>
-                            현재 천장은 _(?)_ 상태입니다.<br></b></p>
+                            <p>
+                                <b>
+                                    현재 조도는 <%=light%> 입니다.<br>
+                                    현재 천장은 <%=roof%> 상태입니다.<br>
+                                </b>
+                            </p>
+                            
                             <ul class="actions">
                                 <li>
-                                    <a href="/manage/illum" class="button alt">바로가기</a>
+                                    <% if(user == 'KIM' || user== 'DEV'){%>
+                                        <a href="/manage/illum" class="button alt">바로가기</a>
+                                    <% } else { %>
+                                        <div style="height: 41.8px;"/>
+                                    <%}%>
+                                    
                                 </li>
                             </ul>
                         </div>
                     </article>
                     <article class="feature left">
-                        <span class="humimg"><a href="#"><img src="../img/hum.png" alt="" /></a></span>
+                        <span class="tmpimg">
+                            <img src="../img/tempe.png" alt="" />
+                            <img src="../img/hum.png" alt="" />
+                        </span>
                         <div class="content">
-                            <h2>SMARTFACTORY <br>습도</h2>
-                            <p><b>현재 습도는 (?) % 입니다.<br>
-                            제습기 가동 _(?)_</b> 
+                            <h2>SMARTFACTORY <br>온도 습도</h2>
+                            <p>
+                                <b>
+                                    현재 온도는 <%=temp%> ˚C 입니다.<br>
+                                    현재 습도는 <%=humid%> % 입니다.<br>
+                                    난방기 [ <%=heater%> ]<br>
+                                    제습기 [ <%=dehumid%> ]
+                                </b>
                             </p>
                             <ul class="actions">
                                 <li>
-                                    <a href="/manage/th" class="button alt">바로가기</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </article>
-                    <article class="feature left">
-                        <span class="tmpimg"><a href="#"><img src="../img/tempe.png" alt="" /></a></span>
-                        <div class="content">
-                            <h2>SMARTFACTORY <br>온도</h2>
-                            <p><b>현재 온도는 (?) ˚C 입니다.<br>
-                            난방기 가동 _(?)_ </b>
-                            </p>
-                            <ul class="actions">
-                                <li>
-                                    <a href="/manage/th" class="button alt">바로가기</a>
+                                    <% if(user == 'LEE' || user== 'DEV'){%>
+                                        <a href="/manage/th" class="button alt">바로가기</a>
+                                    <% } else { %>
+                                        <div style="height: 41.8px;"/>
+                                    <%}%>
+                                    
                                 </li>
                             </ul>
                         </div>
                     </article>
                      <article class="feature left">
-                        <span class="boximg"><a href="#"><img src="../img/boxes.png" alt="" /></a></span>
+                        <span class="boximg"><img src="../img/boxes.png" alt="" /></span>
                         <div class="content">
-                            <h2>SMARTFACTORY <br>재고수량</h2>
-                            <p><b>A재고량 : (?) , 상태 : (?)<br>
-                            B재고량 : (?) , 상태 : (?)<br>
-                            C재고량 : (?) , 상태 : (?)<br></b>
-                            </p>
+                            <h2>
+                                SMARTFACTORY 
+                                <br>
+                                재고수량
+                            </h2>
+                            <table style="border-bottom: double 1px black;">
+                                <tr>
+                                    <th>재고 명</th>
+                                    <th>현재 수량</th>
+                                </tr>
+                                <% results2.forEach(result2=>{%>
+                                    <tr>
+                                        <td><%= result2.ITEM_NAME %></td>
+                                        <td><%= result2.ITEM_STOCK %></td>
+                                    </tr>
+                                <%});%>
+                            </table>
                             <ul class="actions">
                                 <li>
-                                    <a href="/manage/stock" class="button alt">바로가기</a>
+                                    <% if(user == 'JIN' || user== 'DEV'){%>
+                                        <a href="/manage/stock" class="button alt">바로가기</a>
+                                    <% } else { %>
+                                        <div style="height: 41.8px;"/>
+                                    <%}%>
                                 </li>
                             </ul>
                         </div>
                     </article>
-                    
                 </div>
             </section>
     </nav>
     <!-- Footer -->
     <footer id="footer">
-        <!-- <div class="inner">
-            <ul class="icons">
-                <li><a href="#" class="icon fa-facebook">
-                        <span class="label">Facebook</span>
-                    </a></li>
-                <li><a href="#" class="icon fa-twitter">
-                        <span class="label">Twitter</span>
-                    </a></li>
-                <li><a href="#" class="icon fa-instagram">
-                        <span class="label">Instagram</span>
-                    </a></li>
-                <li><a href="#" class="icon fa-linkedin">
-                        <span class="label">LinkedIn</span>
-                    </a></li>
-            </ul>
+        <div class="inner">
             <ul class="copyright">
-                <li>&copy; Untitled.</li>
-                <li>Images: <a href="http://unsplash.com">Unsplash</a>.</li>
-                <li>Design: <a href="http://templated.co">TEMPLATED</a>.</li>
+                <img src="../img/exlogo4.png" alt="" />
+                <li>&copy; KITRI_SF_project.</li><br>
+                <li>PM: <a href="http://unsplash.com">JIN HEE SUNG</a>.</li><br>
+                <li>Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU  </a>.</li>
             </ul>
-        </div> -->
+        </div>
     </footer>
     <!-- Scripts -->
     <script src="../assets_main/js/jquery.min.js"></script>
