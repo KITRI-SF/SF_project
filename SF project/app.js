@@ -44,12 +44,11 @@ app.get('/',(req,res)=>{
                 throw err;
             }
             let selectQuery = `
-                select s.sensor_id "sensor_id", sensor_data, status
+                select s.sensor_id "sensor_id", s.sensor_data "sensor_data", m.status "status", m.is_auto "is_auto"
                 from (select sensor_id, sensor_data from sensors order by check_date desc limit 0,4) s, 
                       machine_status m
                 where s.sensor_id = m. sensor_id;
             `;
-
             connection.query(selectQuery,(err,results)=>{
                 if(err){
                     connection.release();
@@ -61,14 +60,8 @@ app.get('/',(req,res)=>{
                     where item_stock between 0 and 40
                     order by item_stock;
                 `;
-                connection.query(selectQuery,(err,results2)=>{
-                    if(err){
-                        connection.release();
-                        throw err;
-                    }
-                    connection.release();
-                    res.render('mainindex',{user:sess.user, results:results, results2:results2});
-                });
+                connection.release();
+                res.render('mainindex',{user:sess.user, results:results});
             });
         });
     }
@@ -90,7 +83,79 @@ app.get('/manage/:mode',(req,res)=>{
     else {
         switch(mode){
             case 'stock': 
-                res.render('stock',{user:sess.user});
+                p.getConnection((err,connection)=>{
+                    if(err){
+                        connection.release();
+                        throw err;
+                    }
+                    let pQuery = `
+                        select p_name, p_stock
+                        from product
+                        order by p_id asc; 
+                    `; //id (1 ... n') 순서
+                    connection.query(pQuery,(err,Presults)=>{
+                        if(err){
+                            connection.release();
+                            throw err;
+                        }
+
+                        var prd = new Array();
+                        var col = new Array();
+                        var color = {};
+                        var pattern = new Array();
+                        var stockPer=0;
+                        Presults.forEach((presult,ind)=>{
+                            prd.push(new Array());
+                            col.push(new Array());
+                            col[ind].push(`["${presult.p_name}"`);
+                            prd[ind].push(`"${presult.p_name}"`);
+                            col[ind].push(`${presult.p_stock}]`);
+                            prd[ind].push(presult.p_stock);
+                            color[presult.p_name] = "#" + (Math.round(Math.random() * 0xFFFFFF).toString(16)+"0").substring(0,6);
+                            pattern.push(`"${color[presult.p_name]}"`);
+                            stockPer += presult.p_stock;
+                        });
+
+                        let mQuery = `
+                            select m_name, m_stock, p_id
+                            from material
+                            order by p_id asc, m_name asc;
+                        `;
+                        connection.query(mQuery,(err,Mresults)=>{
+                            if(err){
+                                connection.release();
+                                throw err;
+                            }
+                            let mat_s = new Array();
+                            let mat_n = new Array();
+                            let cid=0, ind=-1;
+                            Mresults.forEach(Mresult=>{
+                                if(cid != Mresult.p_id) {
+                                    cid = Mresult.p_id;
+                                    mat_s.push(new Array());
+                                    mat_n.push(new Array());
+                                    ind++;
+                                }
+                                mat_s[ind].push(Mresult.m_stock);
+                                mat_n[ind].push(`"${Mresult.m_name}"`);
+                            });
+                            /*
+                                id 바뀔때만 ind 증가
+                                if(cid != Mresult.p_id) {
+                                    cid = Mresult.p_id;
+                                    mat.push(new Array());
+                                    ind++;
+                                }
+                            */
+                            console.log(prd);
+                            console.log(mat_s);
+                            console.log(mat_n);
+                            console.log(color);
+                            console.log(pattern);
+                            res.render('stock',{user:sess.user, col:col ,prd:prd, mat_s:mat_s, mat_n:mat_n, color:color, pattern:pattern, stockPer:stockPer});
+                        });
+                    });
+                });
             break;
             case 'illum': 
                 p.getConnection((err,connection)=>{
@@ -102,7 +167,7 @@ app.get('/manage/:mode',(req,res)=>{
                         select sensor_data "illum", date_format(check_date,'%Y-%m-%d %H:%i:%s') "check_date"
                         from sensors
                         where sensor_id = 4
-                            and check_date > subdate(now(), interval 30 minute)
+                        and check_date > subdate(now(), interval 30 minute)
                         order by check_date;
                     `;
                     connection.query(illumQuery,(err,results)=>{
@@ -110,14 +175,36 @@ app.get('/manage/:mode',(req,res)=>{
                             connection.release();
                             throw err;
                         }
-                        connection.release();
                         var illum = new Array();
                         var date = new Array();
-                        results.forEach(result => {
-                            illum.push(result.illum);
-                            date.push(`"${result.check_date}"`);
+                        var cur = undefined;
+                        if(results[0]){
+                            results.forEach(result => {
+                                illum.push(result.illum);
+                                date.push(`"${result.check_date}"`);
+                            });
+                            cur = results[results.length-1].illum;
+                        }
+                        let statusQuery = `
+                            select m.status "status", m.is_auto "is_auto", a.aim_data "aim_data"
+                            from machine_status m, aim_data a
+                            where m.sensor_id = a.sensor_id
+                            and m.sensor_id = 4;
+                        `;
+                        connection.query(statusQuery,(err,results)=>{
+                            if(err){
+                                connection.release();
+                                throw err;
+                            }
+                            var aim, st, isAuto;
+                            if(results[0]){
+                                aim = results[0].aim_data;
+                                st = results[0].status;
+                                isAuto = results[0].is_auto;
+                            }
+                            connection.release();
+                            res.render('lighttest',{user:sess.user, illum:illum, date:date, aim:aim, cur:cur, st:st, isAuto:isAuto});
                         });
-                        res.render('lighttest',{user:sess.user, illum:illum, date:date});
                     });
                 });
                 
@@ -136,21 +223,51 @@ app.get('/manage/:mode',(req,res)=>{
                             and t.check_date > subdate(now(), interval 30 minute)
                         order by t.check_date;
                     `;
-                    connection.query(thQuery,(err,results)=>{
+                    connection.query(thQuery,(err,thresults)=>{
                         if(err){
                             connection.release();
                             throw err;
                         }
-                        connection.release();
                         var temp = new Array();
                         var  humid = new Array();
                         var date = new Array();
-                        results.forEach(result => {
-                            temp.push(result.temp);
-                            humid.push(result.humid);
-                            date.push(`"${result.check_date}"`);
+                        var curT = undefined;
+                        var curH = undefined;
+                        if(thresults[0]){
+                            thresults.forEach(result => {
+                                temp.push(result.temp);
+                                humid.push(result.humid);
+                                date.push(`"${result.check_date}"`);
+                            });
+                            curT = thresults[thresults.length-1].temp;
+                            curH = thresults[thresults.length-1].humid;
+                        }
+                        let statusQuery = `
+                            select m.status "status", m.is_auto "is_auto", a.aim_data "aim_data"
+                            from machine_status m, aim_data a
+                            where m.sensor_id in (1,2)
+                                and m.sensor_id = a.sensor_id
+                            order by m.sensor_id asc;
+                        `;
+                        connection.query(statusQuery,(err,stresults)=>{
+                            if(err){
+                                connection.release();
+                                throw err;
+                            }
+                            var aim = new Array();
+                            var st = new Array();
+                            var isAuto = new Array();
+                            if(stresults[0]){
+                                stresults.forEach(result => {
+                                        aim.push(result.aim_data);
+                                        st.push(result.status);
+                                        isAuto.push(result.is_auto);
+                                });
+                            }
+                            connection.release();
+                            res.render('th',{temp:temp, humid:humid, date:date, user:sess.user, curT:curT, curH:curH, aim:aim, st:st, isAuto:isAuto});
                         });
-                        res.render('th',{temp:temp, humid:humid, date:date, user:sess.user})
+                        
                     });
                 })
             break;
@@ -197,7 +314,45 @@ app.get('/api/test',(req,res)=>{
     data.humid = Math.floor(Math.random() * Math.floor(10)) + 20;
     data.gas = Math.floor(Math.random() * Math.floor(10)) + 20;
     data.light = Math.floor(Math.random() * Math.floor(10)) + 20;
+    data.rest = "";
     res.send(data);
+});
+
+app.get('/api/aim',(req,res)=>{
+    p.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            throw err;
+        }
+        let aimQuery = `
+            select sensor_id, aim_data 
+            from aim_data
+            order by sensor_id;
+        `;
+        connection.query(aimQuery,(err,results)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            let data = {};
+            results.forEach((result,ind)=>{
+                switch(result.sensor_id){
+                    case 1:
+                        data.temp = result.aim_data;
+                    break;
+                    case 2:
+                        data.humid = result.aim_data;
+                    break;
+                    case 4:
+                        data.light = result.aim_data;
+                    break;
+                }
+            });
+            data._="";
+            connection.release();
+            res.send(data);
+        });
+    });
 });
 
 app.get('/logout',(req,res)=>{
@@ -246,6 +401,132 @@ setInterval(()=>{
         });
     });
 },60000);
+
+app.post('/illum/control',(req,res)=>{
+    var remote = req.body.remote;
+    p.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            throw err;
+        }
+        let updateQuery = `
+            update machine_status set status = ? where sensor_id = 4;
+        `;
+        connection.query(updateQuery,[remote],(err)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            connection.release();
+            res.redirect('/manage/illum');
+        })
+    });
+});
+
+app.post('/illum/auto',(req,res)=>{
+    var remote = req.body.remote;
+    p.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            throw err;
+        }
+        let updateQuery = `
+            update machine_status set is_auto = ? where sensor_id = 4;
+        `;
+        connection.query(updateQuery,[remote],(err)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            connection.release();
+            res.redirect('/manage/illum');
+        })
+    });
+});
+
+app.post('/temp/control',(req,res)=>{
+    var remote = req.body.remote;
+    p.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            throw err;
+        }
+        let updateQuery = `
+            update machine_status set status = ? where sensor_id = 1;
+        `;
+        connection.query(updateQuery,[remote],(err)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            connection.release();
+            res.redirect('/manage/th');
+        })
+    });
+});
+
+app.post('/temp/auto',(req,res)=>{
+    var remote = req.body.remote;
+    p.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            throw err;
+        }
+        let updateQuery = `
+            update machine_status set is_auto = ? where sensor_id = 1;
+        `;
+        connection.query(updateQuery,[remote],(err)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            connection.release();
+            res.redirect('/manage/th');
+        })
+    });
+});
+
+app.post('/humid/control',(req,res)=>{
+    var remote = req.body.remote;
+    p.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            throw err;
+        }
+        let updateQuery = `
+            update machine_status set status = ? where sensor_id = 2;
+        `;
+        connection.query(updateQuery,[remote],(err)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            connection.release();
+            res.redirect('/manage/th');
+        })
+    });
+});
+
+app.post('/humid/auto',(req,res)=>{
+    var remote = req.body.remote;
+    p.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            throw err;
+        }
+        let updateQuery = `
+            update machine_status set is_auto = ? where sensor_id = 2;
+        `;
+        connection.query(updateQuery,[remote],(err)=>{
+            if(err){
+                connection.release();
+                throw err;
+            }
+            connection.release();
+            res.redirect('/manage/th');
+        })
+    });
+});
 
 // setInterval(()=>{
 //     console.log("SENSING");
