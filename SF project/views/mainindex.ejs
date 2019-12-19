@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
     <%- include('./include/head') %>
     <title>SF 메인페이지</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../assets_main/css/main.css" />
-    <link rel="stylesheet" href="../css/style_main.css">
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/style2.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
 </head>
 
 <% 
@@ -42,14 +42,19 @@
 
 <body class="landing">
     <!-- Header -->
-    <header id="header" class="alt">
-        <h1><p class="userText"><%=user%></p> 님 환영합니다.</h1>
-        <form action="/logout" method="get" style="display: inline-block;"><input type="submit" value="로그아웃"></form>
-    </header>
-    <!-- Banner -->
-    <section id="banner">
-        <img src="../img/exlogo4.png" alt=""/>
-    </section>
+    <div>
+        <header id="header" class="alt" >
+            <div class="col-sm-6">
+                <div style="margin-right: 10px; min-height:auto;">
+                    <a href="/"><img src="../img/testlogomini2.png" ></a>
+                </div>
+            </div>
+            <div class="col-sm-6" align="right">
+                <h3><%=user%> 님 환영합니다.</h3>
+                <form action="/logout" method="get" style="display: inline-block;"><input type="submit" value="로그아웃"></form>
+            </div>
+        </header>
+    </div>      
     <!-- Navtwo -->
     <nav id="navtwo">
             <!-- One -->
@@ -58,7 +63,11 @@
                     <article class="feature left">
                         <span class="cldimg" ><img src="../img/cloud.png" alt="" /></span>
                         <div class="content">
-                            <h2>SMART FACTORY <br>조도</h2>
+                            <h2>
+                                SMART FACTORY
+                                <br>
+                                조도
+                            </h2>
                             <p>
                                 <b>
                                     현재 조도는 <%=illum%> 입니다.<br>
@@ -78,7 +87,6 @@
                                     <% } else { %>
                                         <div style="height: 41.8px;"/>
                                     <%}%>
-                                    
                                 </li>
                             </ul>
                         </div>
@@ -119,7 +127,7 @@
                             </ul>
                         </div>
                     </article>
-                     <article class="feature left">
+                     <article class="feature left" style="padding: 12px 0;">
                         <span class="boximg"><img src="../img/boxes.png" alt="" /></span>
                         <div class="content">
                             <h2>
@@ -145,19 +153,19 @@
     <footer id="footer">
         <div class="inner">
             <ul class="copyright">
-                <img src="../img/exlogo4.png" alt="" />
+                <img src="../img/testlogo3.png" alt="" />
                 <li>&copy; KITRI_SF_project.</li><br>
-                <li>PM: <a href="http://unsplash.com">JIN HEE SUNG</a>.</li><br>
+                <li>PM: JIN HEE SUNG</a></li><br>
                 <li>Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU  </a>.</li>
             </ul>
         </div>
     </footer>
     <!-- Scripts -->
-    <script src="../assets_main/js/jquery.min.js"></script>
-    <script src="../assets_main/js/skel.min.js"></script>
-    <script src="../assets_main/js/util.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/skel.min.js"></script>
+    <script src="../js/util.js"></script>
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="../assets_main/js/main.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 
 </html>

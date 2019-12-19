@@ -2508,7 +2508,30 @@
 	input[type="submit"],
 	input[type="reset"],
 	input[type="button"],
-	
+	button,
+	.button {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		-ms-appearance: none;
+		appearance: none;
+		-moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+		-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+		border-radius: 2.5em;
+		border: 0;
+		cursor: pointer;
+		display: inline-block;
+		font-weight: 700;
+		height: 2.85em;
+		line-height: 2.95em;
+		min-width: 10em;
+		padding: 0 1.5em;
+		text-align: center;
+		text-decoration: none;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
 
 		input[type="submit"].icon,
 		input[type="reset"].icon,
@@ -3608,7 +3631,6 @@
 		left: 0;
 		line-height: 3.25em;
 		position: fixed;
-		text-align: right;
 		top: 0;
 		width: 100%;
 		z-index: 10001;
@@ -3668,20 +3690,13 @@
 
 		#header.alt {
 			background-color: transparent;
-			font-size: 1.25em;
+			font-size: 1.25em; 
 			padding: 1em 2em;
 			position: absolute;
 		}
-
-			#header.alt > h1 {
-				color: inherit;
-				position: static;
-				float: left;
-			}
-
-			#header.alt a[href="#nav"] {
-				margin-right: 0;
-			}
+		#header h3{
+			text-align: right;
+		}
 
 	@media screen and (max-width: 980px) {
 

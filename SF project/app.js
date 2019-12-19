@@ -111,7 +111,7 @@ app.get('/manage/:mode',(req,res)=>{
                             prd[ind].push(`"${presult.p_name}"`);
                             col[ind].push(`${presult.p_stock}]`);
                             prd[ind].push(presult.p_stock);
-                            color[presult.p_name] = "#" + (Math.round(Math.random() * 0xFFFFFF).toString(16)+"0").substring(0,6);
+                            color[presult.p_name] = "#" + ( Math.round(Math.random() * (0xFFFFFF - 0x999999) + 0xFFFFFF  ).toString(16) + "0" ).substring(0,6);
                             pattern.push(`"${color[presult.p_name]}"`);
                             stockPer += presult.p_stock;
                         });
@@ -147,11 +147,6 @@ app.get('/manage/:mode',(req,res)=>{
                                     ind++;
                                 }
                             */
-                            console.log(prd);
-                            console.log(mat_s);
-                            console.log(mat_n);
-                            console.log(color);
-                            console.log(pattern);
                             res.render('stock',{user:sess.user, col:col ,prd:prd, mat_s:mat_s, mat_n:mat_n, color:color, pattern:pattern, stockPer:stockPer});
                         });
                     });
@@ -308,16 +303,6 @@ app.post('/login',(req,res)=>{
     });
 });
 
-app.get('/api/test',(req,res)=>{
-    const data = {};
-    data.temp = Math.floor(Math.random() * Math.floor(10)) + 20;
-    data.humid = Math.floor(Math.random() * Math.floor(10)) + 20;
-    data.gas = Math.floor(Math.random() * Math.floor(10)) + 20;
-    data.light = Math.floor(Math.random() * Math.floor(10)) + 20;
-    data.rest = "";
-    res.send(data);
-});
-
 app.get('/api/aim',(req,res)=>{
     p.getConnection((err,connection)=>{
         if(err){
@@ -325,9 +310,9 @@ app.get('/api/aim',(req,res)=>{
             throw err;
         }
         let aimQuery = `
-            select sensor_id, aim_data 
-            from aim_data
-            order by sensor_id;
+            select a.sensor_id "sensor_id", a.aim_data "aim_data", m.name "name", m.status "status", m.is_auto "is_auto"
+            from aim_data a, machine_status m
+            where a.sensor_id = m. sensor_id;
         `;
         connection.query(aimQuery,(err,results)=>{
             if(err){
@@ -347,6 +332,9 @@ app.get('/api/aim',(req,res)=>{
                         data.light = result.aim_data;
                     break;
                 }
+                data[result.name] = `${result.status}${result.is_auto}` ;
+                //1번째 현재 해당 기계 on/off
+                //2번째 현재 해당 기계를 자동 구동 여부
             });
             data._="";
             connection.release();
@@ -368,39 +356,41 @@ app.get('/logout',(req,res)=>{
         res.redirect('/');
 });
 
-setInterval(()=>{
-    let url = "http://183.101.196.144:4000/api/test";
-    request(url,function(err,res,body){
-        const result = JSON.parse(body);
-        const temp = result.temp;
-        const humid = result.humid;
-        const gas = result.gas;
-        const light = result.light;
-        console.log(`{"temp":${temp}, "humid":${humid}, "gas":${gas}, "light":${light}}`);
-        p.getConnection((err,connection)=>{
-            if(err){
-                connection.release();
-                throw err;
-            }
-            let insertQuery = `
-                insert into sensors(SENSOR_ID, SENSOR_DATA, CHECK_DATE)
-                values
-                (1,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
-                (2,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
-                (3,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
-                (4,?,date_format(NOW(),'%y-%m-%d %H:%i:%s'));
-            `;
+// setInterval(()=>{
+//     let url = "http://183.101.196.144:4000/api/test";
+//     request(url,function(err,res,body){
+//         const result = JSON.parse(body);
+//         const temp = result.temp;
+//         const humid = result.humid;
+//         const gas = result.gas;
+//         const light = result.light;
+//         console.log(`{"temp":${temp}, "humid":${humid}, "gas":${gas}, "light":${light}}`);
+//         p.getConnection((err,connection)=>{
+//             if(err){
+//                 connection.release();
+//                 throw err;
+//             }
+//             let insertQuery = `
+//                 insert into sensors(SENSOR_ID, SENSOR_DATA, CHECK_DATE)
+//                 values
+//                 (1,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+//                 (2,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+//                 (3,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+//                 (4,?,date_format(NOW(),'%y-%m-%d %H:%i:%s'));
+//             `;
 
-            connection.query(insertQuery,[temp,humid,gas,light],(err,result)=>{
-                if(err){
-                    connection.release();
-                    throw err;
-                }
-                connection.release();
-            });
-        });
-    });
-},60000);
+//             connection.query(insertQuery,[temp,humid,gas,light],(err,result)=>{
+//                 if(err){
+//                     connection.release();
+//                     throw err;
+//                 }
+//                 connection.release();
+//             });
+//         });
+//     });
+// },60000);
+
+
 
 app.post('/illum/control',(req,res)=>{
     var remote = req.body.remote;

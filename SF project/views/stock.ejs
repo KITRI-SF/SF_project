@@ -15,8 +15,7 @@
 		<!-- Header -->
 			<header id="header">
                 <h1><%=user%> 님 환영합니다</h1>
-                <span  class="main_logo"><a href="/">로고(메인페이지 버튼)</a></span>
-			</header>
+            </header>
 
 		<!-- Main -->
 			<section id="main" class="wrapper">
@@ -58,7 +57,7 @@
         var gchart = bb.generate({
             data: {
                 columns: [
-                    ["재고율", <%=stockPer%>/3000 * 100]
+                    ["재고율", (<%=stockPer%>/3000) * 100]
                 ],
                 type: "gauge",
                 onclick: function(d, i) {
