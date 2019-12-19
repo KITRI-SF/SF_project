@@ -31,8 +31,16 @@ article .content{
 	background-image: linear-gradient(120deg,#3497db,#8e44ad);/*배경색 정하는곳 왼쪽부터 오른쪽*/
 
 }
+
 img {
 	max-width: 100%; height: auto;
+}
+
+#testfoot{
+	
+	position: absolute;
+	background-image: linear-gradient(120deg,#3497db,#8e44ad);/*배경색 정하는곳 왼쪽부터 오른쪽*/
+
 }
 
 .humimg img{	
