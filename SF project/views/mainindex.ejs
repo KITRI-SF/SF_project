@@ -51,7 +51,7 @@
             </div>
             <div class="col-sm-6" align="right">
                 <h3><%=user%> 님 환영합니다.</h3>
-                <form action="/logout" method="get" style="display: inline-block;"><input type="submit" value="로그아웃"></form>
+                <form action="/auth/logout" method="get" style="display: inline-block;"><input type="submit" value="로그아웃"></form>
             </div>
         </header>
     </div>      
@@ -148,6 +148,8 @@
                     </article>
                 </div>
             </section>
+
+            <a href="/sms">문자</a>
     </nav>
     <!-- Footer -->
     <footer id="footer">

@@ -2,14 +2,15 @@
 <html>
 	<head>
 		<title>재고관리</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="../css/main.css" />
-        <link rel="stylesheet"  href="../css/style2.css">
+		<meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <link rel="stylesheet" href="../css/billboard.css">
         <script src="../js/billboard.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+		<!-- <link rel="stylesheet" href="../css/main.css" /> -->
+        <link rel="stylesheet"  href="../css/style2.css">
+        
 	</head>
 	<body>
 		<!-- Header -->
@@ -48,26 +49,27 @@
         </footer>
 
     <!-- Scripts -->
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/skel.min.js"></script>
-    <script src="../js/util.js"></script>
-    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="../js/main.js"></script>
     <script>
         var gchart = bb.generate({
             data: {
                 columns: [
-                    ["재고율", (<%=stockPer%>/3000) * 100]
+                    ["재고율", <%=stockPer%> ]
                 ],
                 type: "gauge",
                 onclick: function(d, i) {
                     console.log("onclick", d, i);
                 },
+                onover: function(d, i) {
+                    console.log("onover", d, i);
+                },
+                onout: function(d, i) {
+                    console.log("onout", d, i);
+                }
             },
             gauge: {},
             color: {
                 pattern: [
-                    "#60B040",
+                    "#60B044",
                     "#F6C600",
                     "#F97600",
                     "#FF0000"
@@ -102,10 +104,7 @@
             axis: {
                 x: {
                     type: "category",
-                    categories: [
-                        "완제품",
-                        <%-mat_n[0]%>
-                    ]
+                    categories: [ "완제품", <%-mat_n[0]%> ]
                 },
                 y: {
                     label: {
@@ -161,5 +160,10 @@
             bindto: "#pieChart"
         });
     </script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/skel.min.js"></script>
+    <script src="../js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="../js/main.js"></script>
 	</body>
 </html>

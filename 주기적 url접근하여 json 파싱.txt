@@ -1,0 +1,33 @@
+// setInterval(()=>{
+//     let url = "http://183.101.196.144:4000/api/test";
+//     request(url,function(err,res,body){
+//         const result = JSON.parse(body);
+//         const temp = result.temp;
+//         const humid = result.humid;
+//         const gas = result.gas;
+//         const light = result.light;
+//         console.log(`{"temp":${temp}, "humid":${humid}, "gas":${gas}, "light":${light}}`);
+//         p.getConnection((err,connection)=>{
+//             if(err){
+//                 connection.release();
+//                 throw err;
+//             }
+//             let insertQuery = `
+//                 insert into sensors(SENSOR_ID, SENSOR_DATA, CHECK_DATE)
+//                 values
+//                 (1,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+//                 (2,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+//                 (3,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+//                 (4,?,date_format(NOW(),'%y-%m-%d %H:%i:%s'));
+//             `;
+
+//             connection.query(insertQuery,[temp,humid,gas,light],(err,result)=>{
+//                 if(err){
+//                     connection.release();
+//                     throw err;
+//                 }
+//                 connection.release();
+//             });
+//         });
+//     });
+// },60000);

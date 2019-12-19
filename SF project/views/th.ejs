@@ -110,19 +110,19 @@
                         margin-top: 20px;
                     ">
                         <div>
-                            <form method="POST" action="/temp/auto">
+                            <form method="POST" action="/auto/temp">
                                 <% var tempRemote = isAuto[0] ? 0 : 1; %>
                                 <input type="text" name="remote" value="<%=tempRemote%>" style="display: none;">
                                 <input type="submit" value="난방 자동 관리"  class="big" style="position: relative; left: 48%;">
                             </form>
                             <% if(!isAuto[0]){ %>
                                 <% if(!st[0]) { %>
-                                <form method="POST" action="/temp/control">
+                                <form method="POST" action="/control/temp">
                                     <input type="text" name="remote" value="1" style="display: none;">
                                     <input type="submit" value="난방기 켜기"  class="big" style="position: relative; left: 50%;">
                                 </form>
                                 <% } else { %>
-                                <form method="POST" action="/temp/control">
+                                <form method="POST" action="/control/temp">
                                     <input type="text" name="remote" value="0" style="display: none;">
                                     <input type="submit" value="난방기 끄기"  class="big" style="position: relative; left: 50%;">
                                 </form>
@@ -132,19 +132,19 @@
                         
 
                         <div>
-                            <form method="POST" action="/humid/auto">
+                            <form method="POST" action="/auto/humid">
                                 <% var humidRemote = isAuto[1] ? 0 : 1; %>
                                 <input type="text" name="remote" value="<%=humidRemote%>" style="display: none;">
                                 <input type="submit" value="제습 자동 관리"  class="big" style="position: relative; left: 10%;">
                             </form>
                             <% if(!isAuto[1]){ %>
                                 <% if(!st[1]) { %>
-                                <form method="POST" action="/humid/control">
+                                <form method="POST" action="/control/humid">
                                     <input type="text" name="remote" value="1" style="display: none;">
                                     <input type="submit" value="제습기 켜기" class="big" style="position: relative; left: 12%;">
                                 </form>
                                 <% } else { %>
-                                <form method="POST" action="/humid/control">
+                                <form method="POST" action="/control/humid">
                                     <input type="text" name="remote" value="0" style="display: none;">
                                     <input type="submit" value="제습기 끄기"  class="big" style="position: relative; left: 12%;">
                                 </form>
@@ -169,11 +169,11 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/skel.min.js"></script>
-    <script src="assets/js/util.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/skel.min.js"></script>
+    <script src="../js/util.js"></script>
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="assets/js/main.js"></script>
+    <script src="../js/main.js"></script>
     <script>
         var chart = bb.generate({
             data: {

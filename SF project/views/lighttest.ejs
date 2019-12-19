@@ -46,19 +46,19 @@
                     </header>
                     <div id="chart"></div>
                     <div style="position: relative; margin-left: 50%; left: -88px;">
-                        <form method="POST" action="/illum/auto">
+                        <form method="POST" action="/auto/illum">
                             <% var illumRemote = isAuto ? 0 : 1; %>
                             <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
                             <input type="submit" value="조도 자동 관리"  class="big" style="position: relative; left: -3%;">
                         </form>
                         <% if(!isAuto) { %>
                             <% if(!st) { %>
-                            <form method="POST" action="/illum/control">
+                            <form method="POST" action="/control/illum">
                                 <input type="text" name="remote" value="1" style="display: none;">
                                 <input type="submit" value="천장 열기" class="big">
                             </form>
                             <% } else { %>
-                            <form method="POST" action="/illum/control">
+                            <form method="POST" action="/control/illum">
                                 <input type="text" name="remote" value="0" style="display: none;">
                                 <input type="submit" value="천장 닫기" class="big">
                             </form>
@@ -82,11 +82,11 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/skel.min.js"></script>
-    <script src="assets/js/util.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/skel.min.js"></script>
+    <script src="../js/util.js"></script>
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="assets/js/main.js"></script>
+    <script src="../js/main.js"></script>
     <script>
         var chart = bb.generate({
             data: {
