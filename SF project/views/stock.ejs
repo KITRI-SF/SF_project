@@ -1,10 +1,169 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>관리 | 재고관리</title>
-</head>
-<body>
-    <span><a href="/">메인</a></span> > 재고 관리 페이지
-</body>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>재고관리</title>
+		<meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <link rel="stylesheet" href="../css/billboard.css">
+        <script src="../js/billboard.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+		<!-- <link rel="stylesheet" href="../css/main.css" /> -->
+        <link rel="stylesheet"  href="../css/style2.css">
+        
+	</head>
+	<body>
+		<!-- Header -->
+			<header id="header">
+                <h1><%=user%> 님 환영합니다</h1>
+            </header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+                <div class="container mt-3"><br>
+                    <header class="major special">
+                        <h2>재고 페이지</h2>
+                    </header>
+                    <br><br><br><br>
+                    <h4 align="center">창고 재고율</h4>
+                    <div id="gaugeChart"></div>
+                    <br><br><br><br>
+                    <h4 align="center">재고 현황</h4>
+                    <div id="pieChart"></div>
+                    <br><br>
+                    <div id="barChart"></div>
+                    <br><br><br><br>
+                </div>
+			</section>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <ul class="copyright">
+                    <img src="../img/exlogo4.png" alt="" />
+                    <li>&copy; KITRI_SF_project.</li><br>
+                    <li>PM: <a href="http://unsplash.com">JIN HEE SUNG</a>.</li><br>
+                    <li>Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU  </a>.</li>
+                </ul>
+            </div>
+        </footer>
+
+    <!-- Scripts -->
+    <script>
+        var gchart = bb.generate({
+            data: {
+                columns: [
+                    ["재고율", <%=stockPer%> ]
+                ],
+                type: "gauge",
+                onclick: function(d, i) {
+                    console.log("onclick", d, i);
+                },
+                onover: function(d, i) {
+                    console.log("onover", d, i);
+                },
+                onout: function(d, i) {
+                    console.log("onout", d, i);
+                }
+            },
+            gauge: {},
+            color: {
+                pattern: [
+                    "#60B044",
+                    "#F6C600",
+                    "#F97600",
+                    "#FF0000"
+                ],
+                threshold: {
+                    values: [
+                        70,
+                        80,
+                        90,
+                        100
+                    ]
+                }
+            },
+            size: {
+                height: 180
+            },
+            bindto: "#gaugeChart"
+        });
+        
+        var barChart = bb.generate({
+            data: {
+                columns: [
+                    [<%-prd[0]%>,<%=mat_s[0]%>]
+                ],
+                type: "bar",
+                colors: <%- JSON.stringify(color)%>,
+                // color: function(color, d) {
+                //     return (d.id && d.id === "data3") ?
+                //         d3.rgb(color).darker(d.value / 150).toString() : color;
+                // }
+            },
+            axis: {
+                x: {
+                    type: "category",
+                    categories: [ "완제품", <%-mat_n[0]%> ]
+                },
+                y: {
+                    label: {
+                        text: "수량",
+                        position: "outer-center"
+                    }
+                },
+                rotated: true
+            },
+            bindto: "#barChart"
+        });
+        
+        var c_id = "고래밥";
+        var pchart = bb.generate({
+            data: {
+                columns: [
+                    <%-col%>
+                    // ["홈런볼", 450], //[완제품, 재고량]
+                    // ["칸쵸", 250],
+                    // ["고래밥", 300]
+                ],
+                type: "pie",
+                onclick: function(d, i) {
+                    var id = d.id;
+                    //console.log("onclick", d, i);
+                    let p_info = [<%-col%>];
+                    let col_s;
+                    let cate;
+                    p_info.forEach((p,ind)=>{
+                        if(p[0] == id){
+                            col_s = $.merge(p,(JSON.parse('<%-JSON.stringify(mat_s)%>')[ind]));
+                            cate = (<%-JSON.stringify(mat_n)%>[ind]);
+                            console.log(cate);
+                        }
+                    });
+                    barChart.load({
+                        unload: [
+                            c_id // 변동
+                        ],
+                        columns: [
+                            col_s // 변동
+                        ],
+                    });
+                    c_id = id;
+                    barChart.categories($.merge(["\"완제품\""],cate)); // 변동
+                }
+            },
+            color: {
+                pattern: [
+                    <%-pattern%>
+                ]
+            },
+            bindto: "#pieChart"
+        });
+    </script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/skel.min.js"></script>
+    <script src="../js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="../js/main.js"></script>
+	</body>
 </html>

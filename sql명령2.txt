@@ -1,0 +1,81 @@
+select s.sensor_data "illum", date_format(s.check_date,'%Y-%m-%d %H:%i:%s') "check_date", a.aim_data
+from sensors s, aim_data a
+where s.sensor_id = a.sensor_id
+ and check_date > subdate(now(), interval 30 minute)
+ and s.sensor_id = 4
+order by check_date;
+
+select s.sensor_data "illum", date_format(s.check_date,'%Y-%m-%d %H:%i:%s') "check_date", a.aim_data "aim_data", m.status "status"
+from sensors s, aim_data a, machine_status m
+where s.sensor_id = a.sensor_id
+and s.sensor_id = m.sensor_id
+and check_date > subdate(now(), interval 30 minute)
+and s.sensor_id = 4
+order by check_date;
+
+select t.sensor_data "temp", h.sensor_data "humid", date_format(t.check_date,'%Y-%m-%d %H:%i:%s') "check_date"
+from (select * from sensors where sensor_id=1 order by check_date desc) t,
+(select * from sensors where sensor_id=2 order by check_date desc) h
+where t.check_date = h.check_date 
+and t.check_date > subdate(now(), interval 30 minute)
+order by t.check_date;
+
+select status
+from machine_status
+where sensor_id in (1,2)
+order by sensor_id asc;
+
+create table machine_status(
+ sensor_id int,
+ name varchar(45),
+ status int,
+ is_auto int );
+
+select s.sensor_data "illum", date_format(s.check_date,'%Y-%m-%d %H:%i:%s') "check_date", a.aim_data "aim_data", m.status "status"
+from sensors s, aim_data a, machine_status m
+where s.sensor_id = a.sensor_id
+and s.sensor_id = m.sensor_id
+and check_date > subdate(now(), interval 30 minute)
+and s.sensor_id = 4
+order by check_date;
+
+select sensor_data, date_format(s.check_date,'%Y-%m-%d %H:%i:%s') "check_date"
+from sensors
+where sensor_id = 4
+and check_date > subdate(now(), interval 30 minute)
+order by check_date;
+
+select m.status "status", m.is_auto "is_auto", a.aim_data "aim_data"
+from machine_status m, aim_data a
+where m.sensor_id = a.sensor_id
+and m.sensor_id = 4;
+
+완제품
+	> 제품 id (소재랑 연결)
+	> 제품명
+	> 재고량
+
+create table product(
+    p_id int,
+    p_name varchar(45),
+    p_stock int,
+
+    primary key (p_id)
+);
+
+소재
+	> 소재명
+	> 재고량
+	> 제품 id (여러개)
+
+create table material(
+    m_name varchar(45),
+    m_stock int,
+    p_id int,
+
+    foreign key (p_id) references product (p_id)
+);
+
+select m_name, m_stock, p_id
+from material
+order by p_id asc, m_name asc;

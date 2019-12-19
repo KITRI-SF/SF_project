@@ -1,63 +1,224 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>관리 | 온/습도관리</title>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-	<link rel="stylesheet" href="../css/billboard.css">
-    <script src="../js/billboard.js"></script>
-</head>
-<body>
-    <span><a href="/">메인</a></span> > 온/습도 관리 페이지 (유저 : <%=user%>)
-    <div id="chart"></div>
-    <br/>
-</body>
-
-<script>
-    var chart = bb.generate({
-        data: {
-            x: "x",
-            xFormat: "%Y-%m-%d %H:%M:%S",
-            columns: [
-                ["x", <%-date%>],
-                ["온도", <%=temp%>],
-                ["습도", <%=humid%>]
-            ],
-            types: {
-                습도: "area"
-            },
-            axes: {
-                습도: "y2"
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>온/습도 관리</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../css/main.css" />
+        <link rel="stylesheet"  href="../css/style2.css">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <link rel="stylesheet" href="../css/billboard.css">
+        <script src="../js/billboard.js"></script>
+        <style>
+            .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            vertical-align:middle;
             }
-        },
-        color: {
-            pattern: [
-                "#ff7f0e",
-                "#1f77b4"
-                ]
-        },
-        axis: {
-            x: {
-                type: "timeseries",
-                localtime: true,
-                tick: {
-                    format: "%Y-%m-%d %H:%M:%S"
+            
+            /* Hide default HTML checkbox */
+            .switch input {display:none;}
+            
+            /* The slider */
+            .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            }
+            
+            .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            }
+            
+            input:checked + .slider {
+            background-color: #2196F3;
+            }
+            
+            input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+            }
+            
+            input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+            }
+            
+            /* Rounded sliders */
+            .slider.round {
+            border-radius: 34px;
+            }
+            
+            .slider.round:before {
+            border-radius: 50%;
+            }
+            
+            p {
+            margin:0px;
+            display:inline-block;
+            font-size:15px;
+            font-weight:bold;
+            }
+        </style>
+    </head>
+    <% var test = isAuto; %>
+	<body>
+		<!-- Header -->
+			<header id="header">
+                <h1><%=user%> 님 환영합니다</h1>
+                <span  class="main_logo"><a href="/">로고(메인페이지 버튼)</a></span>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="container">
+                    <%if(curT == undefined || curH == undefined) {%>
+                    <header class="major special">
+                        <h2>데이터 수집중입니다.</h2>
+                    </header>
+                    <% } else {%>
+					<header class="major special">
+                        <h2>온/습도 관리 페이지</h2>
+                        <h1>
+                            현재 온도 [<%=curT%>] 타겟 온도 [<%=aim[0]%>]
+                        </h1>
+                        <h1>
+                            현재 습도 [<%=curH%>] 타겟 습도 [<%=aim[1]%>]
+                        </h1>
+                    </header>
+                    <div id="chart"></div>
+                    <div style="
+                        display: grid;
+                        grid-template-columns: auto auto;
+                        margin-top: 20px;
+                    ">
+                        <div>
+                            <form method="POST" action="/auto/temp">
+                                <% var tempRemote = isAuto[0] ? 0 : 1; %>
+                                <input type="text" name="remote" value="<%=tempRemote%>" style="display: none;">
+                                <input type="submit" value="난방 자동 관리"  class="big" style="position: relative; left: 48%;">
+                            </form>
+                            <% if(!isAuto[0]){ %>
+                                <% if(!st[0]) { %>
+                                <form method="POST" action="/control/temp">
+                                    <input type="text" name="remote" value="1" style="display: none;">
+                                    <input type="submit" value="난방기 켜기"  class="big" style="position: relative; left: 50%;">
+                                </form>
+                                <% } else { %>
+                                <form method="POST" action="/control/temp">
+                                    <input type="text" name="remote" value="0" style="display: none;">
+                                    <input type="submit" value="난방기 끄기"  class="big" style="position: relative; left: 50%;">
+                                </form>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        
+
+                        <div>
+                            <form method="POST" action="/auto/humid">
+                                <% var humidRemote = isAuto[1] ? 0 : 1; %>
+                                <input type="text" name="remote" value="<%=humidRemote%>" style="display: none;">
+                                <input type="submit" value="제습 자동 관리"  class="big" style="position: relative; left: 10%;">
+                            </form>
+                            <% if(!isAuto[1]){ %>
+                                <% if(!st[1]) { %>
+                                <form method="POST" action="/control/humid">
+                                    <input type="text" name="remote" value="1" style="display: none;">
+                                    <input type="submit" value="제습기 켜기" class="big" style="position: relative; left: 12%;">
+                                </form>
+                                <% } else { %>
+                                <form method="POST" action="/control/humid">
+                                    <input type="text" name="remote" value="0" style="display: none;">
+                                    <input type="submit" value="제습기 끄기"  class="big" style="position: relative; left: 12%;">
+                                </form>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <% }%>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			 <footer id="footer">
+        <div class="inner">
+            <ul class="copyright">
+                <img src="../img/exlogo4.png" alt="" />
+                <li>&copy; KITRI_SF_project.</li><br>
+                <li>PM: <a href="http://unsplash.com">JIN HEE SUNG</a>.</li><br>
+                <li>Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU  </a>.</li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/skel.min.js"></script>
+    <script src="../js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="../js/main.js"></script>
+    <script>
+        var chart = bb.generate({
+            data: {
+                x: "x",
+                xFormat: "%Y-%m-%d %H:%M:%S",
+                columns: [
+                    ["x", <%-date%>],
+                    ["온도", <%=temp%>],
+                    ["습도", <%=humid%>]
+                ],
+                types: {
+                    습도: "area"
+                },
+                axes: {
+                    습도: "y2"
                 }
             },
-            y: {
-                label: "온도 (℃)",
-                max: 40,
-                min: -20
+            color: {
+                pattern: [
+                    "#ff7f0e",
+                    "#1f77b4"
+                    ]
             },
-            y2: {
-                show: true,
-                label: "습도 (%)",
-                max: 100,
-                min: 0
-            }
-        },
-        bindto: "#chart"
-    });
+            axis: {
+                x: {
+                    type: "timeseries",
+                    localtime: true,
+                    tick: {
+                        format: "%Y-%m-%d %H:%M:%S"
+                    }
+                },
+                y: {
+                    label: "온도 (℃)",
+                    max: 40,
+                    min: -20
+                },
+                y2: {
+                    show: true,
+                    label: "습도 (%)",
+                    max: 100,
+                    min: 0
+                }
+            },
+            bindto: "#chart"
+        });
     </script>
-
+	</body>
 </html>

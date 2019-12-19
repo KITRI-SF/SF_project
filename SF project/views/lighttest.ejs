@@ -28,12 +28,44 @@
 		<!-- Main -->
 			<section id="main" class="wrapper">
 				<div class="container">
-
+                    <%if(cur == undefined) {%>
+                    <header class="major special">
+                        <h2>데이터 수집중입니다.</h2>
+                    </header>
+                    <% } else {%>
 					<header class="major special">
-						<h2>일조량 측정 페이지</h2>
-						<p>현재 창문이 닫혀있습니다</p>
+                        <h2>일조량 측정 페이지</h2>
+                        <% if(st) { %>
+                            <p>천장 열림</p>
+                        <% } else { %>
+                            <p>천장 닫힘</p>
+                        <% }%>
+						<h1> 
+                            현재 조도 [<%=cur%>] 타겟 조도 [<%=aim%>]
+                        </h1>
                     </header>
                     <div id="chart"></div>
+                    <div style="position: relative; margin-left: 50%; left: -88px;">
+                        <form method="POST" action="/auto/illum">
+                            <% var illumRemote = isAuto ? 0 : 1; %>
+                            <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
+                            <input type="submit" value="조도 자동 관리"  class="big" style="position: relative; left: -3%;">
+                        </form>
+                        <% if(!isAuto) { %>
+                            <% if(!st) { %>
+                            <form method="POST" action="/control/illum">
+                                <input type="text" name="remote" value="1" style="display: none;">
+                                <input type="submit" value="천장 열기" class="big">
+                            </form>
+                            <% } else { %>
+                            <form method="POST" action="/control/illum">
+                                <input type="text" name="remote" value="0" style="display: none;">
+                                <input type="submit" value="천장 닫기" class="big">
+                            </form>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <% }%>
 				</div>
 			</section>
 
@@ -41,7 +73,7 @@
 			 <footer id="footer">
         <div class="inner">
             <ul class="copyright">
-                <img src="images/exlogo4.png" alt="" />
+                <img src="../img/exlogo4.png" alt="" />
                 <li>&copy; KITRI_SF_project.</li><br>
                 <li>PM: <a href="http://unsplash.com">JIN HEE SUNG</a>.</li><br>
                 <li>Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU  </a>.</li>
@@ -49,12 +81,12 @@
         </div>
     </footer>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/skel.min.js"></script>
-    <script src="assets/js/util.js"></script>
+    <!-- Scripts -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/skel.min.js"></script>
+    <script src="../js/util.js"></script>
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="assets/js/main.js"></script>
+    <script src="../js/main.js"></script>
     <script>
         var chart = bb.generate({
             data: {
@@ -80,8 +112,8 @@
                 },
                 y: {
                     label: "조도",
-                    max: 40,
-                    min: -20
+                    max: 100,
+                    min: 0
                 }
             },
             bindto: "#chart"
