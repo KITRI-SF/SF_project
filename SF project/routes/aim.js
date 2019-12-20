@@ -11,7 +11,7 @@ module.exports = (app, p) => {
                 throw err;
             }
             let updateQuery = `
-                update machine_status set status = ? where sensor_id = 1;
+                update aim_data set aim_data = ? where sensor_id = 1;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){
@@ -32,7 +32,7 @@ module.exports = (app, p) => {
                 throw err;
             }
             let updateQuery = `
-                update machine_status set status = ? where sensor_id = 2;
+                update aim_data set aim_data = ? where sensor_id = 2;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){
@@ -53,7 +53,7 @@ module.exports = (app, p) => {
                 throw err;
             }
             let updateQuery = `
-                update machine_status set status = ? where sensor_id = 3;
+                update aim_data set aim_data = ? where sensor_id = 3;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){
@@ -67,4 +67,4 @@ module.exports = (app, p) => {
     });
 
     return router;
-}
+};

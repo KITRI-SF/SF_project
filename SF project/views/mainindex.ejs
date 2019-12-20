@@ -7,9 +7,9 @@
 </head>
 
 <% 
-    var temp, humid, illum;
-    var heater, dehumid, roof;
-    var tAuto, hAuto, ilAuto;
+    var temp=-1, humid=-1, illum=-1;
+    var heater=-1, dehumid=-1, roof=-1;
+    var tAuto=-1, hAuto=-1, ilAuto=-1;
 
     results.forEach(result => {
         switch(result.sensor_id){
@@ -25,7 +25,7 @@
                 hAuto = result.is_auto;
             break;
 
-            case 4:
+            case 3:
                 illum = result.sensor_data;
                 roof = result.status;
                 ilAuto = result.is_auto;
@@ -35,9 +35,12 @@
             break;
         }
     });
-    heater = heater ? "on" : "off";
-    dehumid = dehumid ? "on" : "off";
-    roof = roof ? "open" : "close";
+
+    if(temp != -1){
+        heater = heater ? "on" : "off";
+        dehumid = dehumid ? "on" : "off";
+        roof = roof ? "open" : "close";
+    }
 %>
 
 <body class="landing">
@@ -68,6 +71,7 @@
                                 <br>
                                 조도
                             </h2>
+                            <% if(illum != -1) { %>
                             <p>
                                 <b>
                                     현재 조도는 <%=illum%> 입니다.<br>
@@ -79,7 +83,13 @@
                                     <br>
                                 </b>
                             </p>
-                            
+                            <% } else { %>
+                                <p>
+                                    <b>
+                                        데이터 로딩중 입니다.....
+                                    </b>
+                                </p>
+                            <% } %>
                             <ul class="actions">
                                 <li>
                                     <% if(user == 'KIM' || user== 'DEV'){%>
@@ -98,6 +108,7 @@
                         </span>
                         <div class="content">
                             <h2>SMARTFACTORY <br>온도 습도</h2>
+                            <% if(temp != -1) { %>
                             <p>
                                 <b>
                                     현재 온도는 <%=temp%> ˚C 입니다.<br>
@@ -115,6 +126,13 @@
                                     <% } %>
                                 </b>
                             </p>
+                            <% } else { %>
+                                <p>
+                                    <b>
+                                        데이터 로딩중 입니다.....
+                                    </b>
+                                </p>
+                            <% } %>
                             <ul class="actions">
                                 <li>
                                     <% if(user == 'LEE' || user== 'DEV'){%>

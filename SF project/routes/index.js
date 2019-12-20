@@ -13,7 +13,7 @@ module.exports = (app, p) => {
                 }
                 let selectQuery = `
                     select s.sensor_id "sensor_id", s.sensor_data "sensor_data", m.status "status", m.is_auto "is_auto"
-                    from (select sensor_id, sensor_data from sensors order by check_date desc limit 0,4) s, 
+                    from (select sensor_id, sensor_data from sensors where check_date > subdate(now(), interval 30 minute) order by check_date desc limit 0,4) s, 
                           machine_status m
                     where s.sensor_id = m. sensor_id;
                 `;

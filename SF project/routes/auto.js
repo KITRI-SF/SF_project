@@ -20,7 +20,7 @@ module.exports = (app, p) => {
                     throw err;
                 }
                 connection.release();
-                res.redirect('/manage/th');
+                res.render('index',{redirect:`'/manage/th'`});
             })
         });
     });
@@ -42,7 +42,7 @@ module.exports = (app, p) => {
                     throw err;
                 }
                 connection.release();
-                res.redirect('/manage/th');
+                res.render('index',{redirect:`'/manage/th'`});
             })
         });
     });    
@@ -50,14 +50,13 @@ module.exports = (app, p) => {
     router.post('/illum',(req,res)=>{
         let remote = req.body.remote;
         let cate = req.params.cate;
-
         p.getConnection((err,connection)=>{
             if(err){
                 connection.release();
                 throw err;
             }
             let updateQuery = `
-                update machine_status set is_auto = ? where sensor_id = 4;
+                update machine_status set is_auto = ? where sensor_id = 3;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){
@@ -65,7 +64,7 @@ module.exports = (app, p) => {
                     throw err;
                 }
                 connection.release();
-                res.redirect('/manage/illum');
+                res.render('index',{redirect:`'/manage/illum'`});
             })
         });
     });
