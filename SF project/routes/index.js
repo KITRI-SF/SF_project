@@ -34,7 +34,7 @@ module.exports = (app, p) => {
             });
         }
         else{
-            res.render('testlogin',{auth:true});
+            res.render('login',{auth:true});
         }
     });
 
