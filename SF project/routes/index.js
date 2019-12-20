@@ -29,7 +29,7 @@ module.exports = (app, p) => {
                         order by item_stock;
                     `;
                     connection.release();
-                    res.render('mainindex',{user:sess.user, results:results});
+                    res.render('main',{user:sess.user, results:results});
                 });
             });
         }
