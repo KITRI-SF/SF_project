@@ -46,6 +46,58 @@ module.exports = (app, p) => {
         });
     });
 
+    router.get('/insert',(req,res)=>{
+        let temp = req.query.temp;
+        let humid = req.query.humid;
+        let cds = req.query.cds;
+        let auth = req.query.key == 'ryo@ctat!frmas$ritki';
+        console.log(`temp:${temp} || humid:${humid} || cds:${cds} || auth:${auth} || ${req.query.key}`);
+        if(auth) {
+            p.getConnection((err,connection)=>{
+                if(err){
+                    connection.release();
+                    throw err;
+                }
+                connection.beginTransaction((err)=>{
+                    if(err){
+                        connection.release();
+                        throw err;
+                    }
+                    let insertQuery = `
+                        insert into sensors(sensor_id,sensor_data,check_date)
+                        values
+                        (1,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+                        (2,?,date_format(NOW(),'%y-%m-%d %H:%i:%s')),
+                        (3,?,date_format(NOW(),'%y-%m-%d %H:%i:%s'));
+                    `;
+                    connection.query(insertQuery,[temp,humid,cds],(err,results)=>{
+                        if(err){
+                            connection.rollback(()=>{
+                                connection.release();
+                                throw err;
+                            });
+                        }
+                        connection.commit((err)=>{
+                            if(err){
+                                connection.rollback(()=>{
+                                    connection.release();
+                                    throw err;
+                                })
+                            }
+                            connection.release();
+                            console.log("success");
+
+                            res.render('index',{redirect:`'/'`});
+                        });
+                    }); 
+                });
+            });
+        }
+        else{
+            res.render('index',{redirect:`'/'`});
+        }
+    });
+
     router.get("/sms",(req,res)=>{    
         var numbersToMessage;
         // sample: numbersToMessage = ["+82 10-2377-5817", "+82 10-2931-2131"];
