@@ -1,0 +1,16 @@
+ body {
+     margin: 100px 0 0 0;
+     padding: 10px 0 0 0;
+ }
+
+ #pieChart {
+     margin-top: 50px;
+     margin-bottom: 50px;
+ }
+
+ #barChart {
+     width: 50%;
+     position: absolute;
+     left: 25%;
+     margin-bottom: 40px;
+ }

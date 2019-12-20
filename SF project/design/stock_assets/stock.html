@@ -13,11 +13,13 @@
     <link href="css/small-business.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/billboard.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/thindex.css">
+    <link rel="stylesheet" type="text/css" href="css/stockindex.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 
 <body>
@@ -41,15 +43,14 @@
         </div>
     </nav>
     <!-- 메인페이지 작성 -->
-   <div class="stock">
-       
-    <div id="gaugeChart"></div>
-    <div id="pieChart"></div>
-    dffgdfgsdfg
-   </div>
-
-
-
+    <div class="stock">
+        <h1>재고량</h1>
+        <div id="gaugeChart"></div>
+        <h1>과자 비율</h1>
+        <div id="pieChart"></div>
+        <h1>필요 소재</h1>
+        <div id="barChart"></div>
+    </div>
     <!-- Footer -->
     <footer class="py-5 bg-dark" style="bottom: -1px;">
         <div class="container">
@@ -65,9 +66,8 @@
     <script src="js/skel.min.js"></script>
     <script src="js/util.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/billboard.js"></script>
 </body>
-
-</html>
 <script>
 var gchart = bb.generate({
     data: {
@@ -171,3 +171,5 @@ var pchart = bb.generate({
     bindto: "#pieChart"
 });
 </script>
+
+</html>
