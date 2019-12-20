@@ -53,7 +53,7 @@ module.exports = (app, p) => {
                 throw err;
             }
             let updateQuery = `
-                update aim_data set aim_data = ? where sensor_id = 4;
+                update aim_data set aim_data = ? where sensor_id = 3;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){

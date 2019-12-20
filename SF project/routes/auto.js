@@ -56,7 +56,7 @@ module.exports = (app, p) => {
                 throw err;
             }
             let updateQuery = `
-                update machine_status set is_auto = ? where sensor_id = 4;
+                update machine_status set is_auto = ? where sensor_id = 3;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){

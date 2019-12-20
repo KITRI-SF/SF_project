@@ -15,7 +15,7 @@ module.exports = (app, p) => {
             let illumQuery = `
                 select sensor_data "illum", date_format(check_date,'%Y-%m-%d %H:%i:%s') "check_date"
                 from sensors
-                where sensor_id = 4
+                where sensor_id = 3
                 and check_date > subdate(now(), interval 30 minute)
                 order by check_date;
             `;
@@ -38,7 +38,7 @@ module.exports = (app, p) => {
                     select m.status "status", m.is_auto "is_auto", a.aim_data "aim_data"
                     from machine_status m, aim_data a
                     where m.sensor_id = a.sensor_id
-                    and m.sensor_id = 4;
+                    and m.sensor_id = 3;
                 `;
                 connection.query(statusQuery,(err,results)=>{
                     if(err){
@@ -47,7 +47,7 @@ module.exports = (app, p) => {
                     }
                     var aim, st, isAuto;
                     if(results[0]){
-                        aim = results[0].aim_data;
+                        aim = results[0].aim_data; 
                         st = results[0].status;
                         isAuto = results[0].is_auto;
                     }
@@ -192,6 +192,7 @@ module.exports = (app, p) => {
                             ind++;
                         }
                     */
+                    connection.release();
                     res.render('stock',{user:sess.user, col:col ,prd:prd, mat_s:mat_s, mat_n:mat_n, color:color, pattern:pattern, stockPer:stockPer});
                 });
             });

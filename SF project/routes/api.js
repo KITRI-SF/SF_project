@@ -31,7 +31,7 @@ module.exports = (app, p) => {
                         case 2:
                             data.humid = result.aim_data;
                         break;
-                        case 4:
+                        case 3:
                             data.light = result.aim_data;
                         break;
                     }
