@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>KITRI-SF</title>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/small-business.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/thindex.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand boldst" href="#"><img src="image/50px35pxlogo.png" alt="">&nbsp;&nbsp;SF KITRI</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">__님 환영합니다</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 메인페이지 작성 -->
+   <div class="stock">
+       
+    <div id="gaugeChart"></div>
+    <div id="pieChart"></div>
+    dffgdfgsdfg
+   </div>
+
+
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark" style="bottom: -1px;">
+        <div class="container">
+            <p class="m-0 text-center text-white"> &copy; KITRI_SF_project.
+                PM: JIN HEE SUNG.<br>
+                Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU . </p>
+        </div>
+        <!-- /.container -->
+    </footer>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
+<script>
+var gchart = bb.generate({
+    data: {
+        columns: [
+            ["재고율", 60]
+        ],
+        type: "gauge",
+        onclick: function(d, i) {
+            console.log("onclick", d, i);
+        },
+    },
+    gauge: {},
+    color: {
+        pattern: [
+            "#60B044",
+            "#F6C600",
+            "#F97600",
+            "#FF0000"
+        ],
+        threshold: {
+            values: [
+                70,
+                80,
+                90,
+                100
+            ]
+        }
+    },
+    size: {
+        height: 180
+    },
+    bindto: "#gaugeChart"
+});
+
+var barChart = bb.generate({
+    data: {
+        columns: [
+            ["고래밥", 40, 50, 60]
+        ],
+        type: "bar",
+        colors: {
+            홈런볼: "#aec7e8",
+            칸초: "#98df8a",
+            고래밥: "#446645"
+        },
+        color: function(color, d) {
+            return (d.id && d.id === "data3") ?
+                d3.rgb(color).darker(d.value / 150).toString() : color;
+        }
+    },
+    axis: {
+        x: {
+            type: "category",
+            categories: [
+                "재료 A",
+                "재료 B",
+                "완제품"
+            ]
+        },
+        y: {
+            label: {
+                text: "수량",
+                position: "outer-center"
+            }
+        },
+        rotated: true
+    },
+    bindto: "#barChart"
+});
+
+var pchart = bb.generate({
+    data: {
+        columns: [
+            ["홈런볼", 12], //[완제품, 재고량]
+            ["칸초", 23],
+            ["고래밥", 24]
+        ],
+        type: "pie",
+        onclick: function(d, i) {
+            //console.log("onclick", d, i);
+            var id = d.id;
+            console.log(id);
+            barChart.load({
+                unload: [
+                    "고래밥" // 변동
+                ],
+                columns: [
+                    ["칸초", 20, 30, 50, 100] // 변동
+                ],
+            });
+            barChart.categories(["소재 1", "소재 2", "소재 3", "완제품"]); // 변동
+        }
+    },
+    color: {
+        pattern: [
+            "#aec7e8",
+            "#98df8a",
+            "#446645"
+        ]
+    },
+    bindto: "#pieChart"
+});
+</script>

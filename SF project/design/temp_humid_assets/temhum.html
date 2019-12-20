@@ -4,8 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <title>KITRI-SF</title>
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +11,12 @@
     <link href="css/small-business.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" type="text/css" href="css/lightindex.css">
+    <link rel="stylesheet" type="text/css" href="css/thindex.css">
+    <link rel="stylesheet" href="css/chartist-custom.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="css/billboard.css">
+    <script src="js/billboard.js"></script>
+
    
 </head>
 
@@ -39,28 +42,14 @@
     </nav>
     <!-- 메인페이지 작성 -->
     <div class="ilumindex">
-        <h1>조도 센서 그래프</h1>
+        <h1>온도 습도 그래프</h1>
         <!-- 그래프 넣는 곳 -->
-        <img src="image/graph.png"><br>
-        <div class="gaugebar">
-            <input type="range" name="points" min="0" max="1023" step="1" value="0" oninput="document.getElementById('value1').innerHTML=this.value;" class="custom-range" style="width: 20% ">
-            <div id="value1">센서값</div>
+        <div class="chartd">
+            <div id="chart"></div>
         </div>
-
-
-      <h2><P>현재 상태: On/Off</P> </h2>
-      <button class="btn btn-primary col-sm-3"> 조도 자동관리</button>
-      <button class="btn btn-primary col-sm-3"> 천장 열기</button>
-
-
+        <button class="btn btn-primary col-sm-3 bt1"> 제습기 ON</button>
+        <button class="btn btn-primary col-sm-3 bt2"> 난방기 OFF</button>
     </div>
-
-
-
-
-
-
-
     <!-- Footer -->
     <footer class="py-5 bg-dark" style="bottom: -1px;">
         <div class="container">
@@ -73,6 +62,62 @@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/chartist.min.js"></script>
 </body>
+<script>
+var chart = bb.generate({
+    data: {
+        x: "x",
+        xFormat: "%Y-%m-%d %H:%M",
+        columns: [
+            ["x",
+                "2019-12-16 12:00",
+                "2019-12-16 12:30",
+                "2019-12-16 13:00",
+                "2019-12-16 13:30",
+                "2019-12-16 14:00",
+                "2019-12-16 14:30",
+                "2019-12-16 15:00"
+            ],
+            ["온도", 10, 15, 26, 26, 20, 13, 10],
+            ["습도", 30, 30, 20, 50, 25, 35, 30]
+        ],
+        types: {
+            습도: "area-spline"
+        },
+        axes: {
+            습도: "y2"
+        }
+    },
+    color: {
+        pattern: [
+            "#ff7f0e",
+            "#1f77b4"
+        ]
+    },
+    axis: {
+        x: {
+            type: "timeseries",
+            localtime: true,
+            tick: {
+                format: "%Y-%m-%d %H:%M"
+            }
+        },
+        y: {
+            label: "온도 (℃)",
+            max: 40,
+            min: -20
+        },
+        y2: {
+            show: true,
+            label: "습도 (%)",
+            max: 100,
+            min: 0
+        }
+    },
+    bindto: "#chart"
+});
+</script>
 
 </html>
