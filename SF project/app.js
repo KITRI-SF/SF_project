@@ -53,6 +53,9 @@ app.use('/manage',manage);
 let api = require('./routes/api.js')(app, p);
 app.use('/api',api);
 
+let aim = require('./routes/aim.js')(app, p);
+app.use('/aim',aim);
+
 //error handling area
 app.use((req,res,next)=>{
     throw new Error(req.url + ' not found');

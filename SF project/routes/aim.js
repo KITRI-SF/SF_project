@@ -4,15 +4,14 @@ module.exports = (app, p) => {
     const mysql = require('mysql');
 
     router.post('/temp',(req,res)=>{
-        let remote = req.body.remote;
-
+        var remote = req.body.remote;
         p.getConnection((err,connection)=>{
             if(err){
                 connection.release();
                 throw err;
             }
             let updateQuery = `
-                update machine_status set is_auto = ? where sensor_id = 1;
+                update aim_data set aim_data = ? where sensor_id = 1;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){
@@ -26,15 +25,14 @@ module.exports = (app, p) => {
     });
 
     router.post('/humid',(req,res)=>{
-        let remote = req.body.remote;
-
+        var remote = req.body.remote;
         p.getConnection((err,connection)=>{
             if(err){
                 connection.release();
                 throw err;
             }
             let updateQuery = `
-                update machine_status set is_auto = ? where sensor_id = 2;
+                update aim_data set aim_data = ? where sensor_id = 2;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){
@@ -45,18 +43,17 @@ module.exports = (app, p) => {
                 res.render('index',{redirect:`'/manage/th'`});
             })
         });
-    });    
+    });
 
     router.post('/illum',(req,res)=>{
-        let remote = req.body.remote;
-        let cate = req.params.cate;
+        var remote = req.body.remote;
         p.getConnection((err,connection)=>{
             if(err){
                 connection.release();
                 throw err;
             }
             let updateQuery = `
-                update machine_status set is_auto = ? where sensor_id = 4;
+                update aim_data set aim_data = ? where sensor_id = 4;
             `;
             connection.query(updateQuery,[remote],(err)=>{
                 if(err){
@@ -70,4 +67,4 @@ module.exports = (app, p) => {
     });
 
     return router;
-}
+};

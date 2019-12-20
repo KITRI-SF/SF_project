@@ -4,8 +4,7 @@ module.exports = function(app, p){
     const mysql = require('mysql');
 
     router.get('/login',(req,res)=>{
-         let sess = req.session;
-         if(!sess.uid) res.render('index',{redirect:`'/'`});
+         if(!req.session.uid) res.render('index',{redirect:`'/'`});
     });
     
     router.get('/logout',(req,res)=>{
@@ -14,11 +13,9 @@ module.exports = function(app, p){
             req.session.destroy((err) => {
                 if (err)
                     console.log(err);
-                else
-                    res.render('index',{redirect:`'/'`});
             });
-        } else
-            res.render('index',{redirect:`'/'`});
+        }
+        res.render('index',{redirect:`'/'`});
     });
     
     router.post('/login',(req,res)=>{

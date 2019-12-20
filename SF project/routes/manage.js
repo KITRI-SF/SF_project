@@ -5,7 +5,7 @@ module.exports = (app, p) => {
 
     router.get('/illum',(req,res)=>{
         let sess = req.session;
-        if(!sess.user) { res.render('index',{redirect:`'/'`}); }
+        if(!sess.user) { res.render('index',{redirect:`'/'`, prev:false}); }
 
         p.getConnection((err,connection)=>{
             if(err){
@@ -126,7 +126,7 @@ module.exports = (app, p) => {
 
     router.get('/stock',(req,res)=>{
         let sess = req.session;
-        if(!sess.user) { res.render('index',{redirect:`'/'`}); }
+        if(!sess.user) { res.render('index',{redirect:`'/'`, prev:false}); }
 
         p.getConnection((err,connection)=>{
             if(err){
