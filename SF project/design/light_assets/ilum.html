@@ -12,6 +12,7 @@
     <!-- Custom styles for this template -->
     <link href="css/small-business.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <style type="text/css">
     body {
         margin: 100px 0 0 0;
@@ -19,11 +20,14 @@
     }
 
     .ilumindex {
-
+        margin-bottom: 100px;
         text-align: center;
     }
     .gaugebar{
       margin-bottom: 20px;
+    }
+    .btn{
+      padding: 20px;
     }
     </style>
 </head>
@@ -55,11 +59,23 @@
         <img src="image/graph.png"><br>
         <div class="gaugebar">
             <input type="range" name="points" min="0" max="1023" step="1" value="0" oninput="document.getElementById('value1').innerHTML=this.value;" class="custom-range" style="width: 20% ">
-            <div id="value1"></div>
+            <div id="value1">센서값</div>
         </div>
-        hello<br>
-        hello<br>
+
+
+      <h2><P>현재 상태: On/Off</P> </h2>
+      <button class="btn btn-primary col-sm-3"> 조도 자동관리</button>
+      <button class="btn btn-primary col-sm-3"> 천장 열기</button>
+
+
     </div>
+
+
+
+
+
+
+
     <!-- Footer -->
     <footer class="py-5 bg-dark" style="bottom: -1px;">
         <div class="container">
