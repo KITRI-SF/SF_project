@@ -20,7 +20,7 @@ module.exports = (app, p) => {
                     throw err;
                 }
                 connection.release();
-                res.redirect('/manage/th');
+                res.render('index',{redirect:`'/manage/th'`});
             })
         });
     });
@@ -42,7 +42,7 @@ module.exports = (app, p) => {
                     throw err;
                 }
                 connection.release();
-                res.redirect('/manage/th');
+                res.render('index',{redirect:`'/manage/th'`});
             })
         });
     });    
@@ -65,7 +65,7 @@ module.exports = (app, p) => {
                     throw err;
                 }
                 connection.release();
-                res.redirect('/manage/illum');
+                res.render('index',{redirect:`'/manage/illum'`});
             })
         });
     });

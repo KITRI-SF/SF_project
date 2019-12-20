@@ -14,7 +14,7 @@ const p = mysql.createPool({
 	,user : 'sf_master'
 	,password : 'kitri123'
 	,database : 'sf_project'
-    ,port : 3306   mp
+    ,port : 3306 
     ,connectionLimit : 20
 	,waitForConnection : false
 });
