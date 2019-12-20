@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+    <%- include('./include/head') %>
+    <title>SF 메인페이지</title>
+    <link rel="stylesheet" href="../main_assets/vendor/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../main_assets/css/small-business.css" />
+    <link rel="stylesheet" href="../main_assets/css/index.css" />
+</head>
+<% 
+    var temp=-1, humid=-1, illum=-1;
+    var heater=-1, dehumid=-1, roof=-1;
+    var tAuto=-1, hAuto=-1, ilAuto=-1;
+
+    results.forEach(result => {
+        switch(result.sensor_id){
+            case 1:
+                temp = result.sensor_data;
+                heater = result.status;
+                tAuto = result.is_auto;
+            break;
+
+            case 2:
+                humid = result.sensor_data;
+                dehumid = result.status;
+                hAuto = result.is_auto;
+            break;
+
+            case 3:
+                illum = result.sensor_data;
+                roof = result.status;
+                ilAuto = result.is_auto;
+            break;
+
+            default:
+            break;
+        }
+    });
+
+    if(temp != -1){
+        heater = heater ? "on" : "off";
+        dehumid = dehumid ? "on" : "off";
+        roof = roof ? "open" : "close";
+    }
+%>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand boldst" href="/"><img src="../main_assets/image/50px35pxlogo.png" alt="">&nbsp;&nbsp;SF KITRI</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <h3 class="nav-link"><%=user%> 님</h3>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/logout">log out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="gaugeChart"></div>
+
+    <!-- Page Content -->
+    <!-- /.container -->
+    <div class="clear-fix"></div>
+    <div class="row">
+        <div class="col-2 mb-5"></div>
+        <div class="col-8 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">조도</h2>
+                </div>
+                <div class="card-box">
+                    <div class="box-content col-lg-4"><img src="../main_assets/image/light.png" class="myImg"></div>
+                    <div class="box-content col-lg-8">
+                        <% if(illum != -1) { %>
+                            <p>
+                                <b>
+                                    현재 조도는 <%=illum%> 입니다.<br>
+                                    <% if(ilAuto == 0) { %>
+                                        현재 천장은 <%=roof%> 상태입니다.
+                                    <% } else { %>
+                                        조도 자동 관리 가동중
+                                    <% } %>
+                                    <br>
+                                </b>
+                            </p>
+                            <% } else { %>
+                                <p>
+                                    <b>
+                                        데이터 로딩중 입니다.....
+                                    </b>
+                                </p>
+                            <% } %>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <% if(user == 'KIM' || user== 'DEV'){%>
+                        <a href="/manage/illum" class="btn btn-primary btn-sm">More Info</a>
+                    <% } else { %>
+                        <div style="height: 29px;"></div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 mb-5"></div>
+    </div>
+    <div class="row">
+        <div class="col-2 mb-5"></div>
+        <div class="col-8 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">온·습도</h2>
+                </div>
+                <div class="card-box">
+                    <div class="box-content col-lg-4"><img src="../main_assets/image/ht.png" class="myImg"></div>
+                    <div class="box-content col-lg-8">
+                        <% if(temp != -1) { %>
+                            <p>
+                                <b>
+                                    현재 온도는 <%=temp%> ˚C 입니다.<br>
+                                    현재 습도는 <%=humid%> % 입니다.<br>
+                                    <% if(tAuto == 0) { %>
+                                        난방기 [ <%=heater%> ]
+                                    <% } else { %>
+                                        난방 자동 관리 가동중
+                                    <% } %>
+                                    <br>
+                                    <% if(hAuto == 0) { %>
+                                        제습기 [ <%=dehumid%> ]
+                                    <% } else { %>
+                                        제습 자동 관리 가동중
+                                    <% } %>
+                                </b>
+                            </p>
+                            <% } else { %>
+                                <p>
+                                    <b>
+                                        데이터 로딩중 입니다.....
+                                    </b>
+                                </p>
+                            <% } %>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <% if(user == 'LEE' || user== 'DEV'){%>
+                        <a href="/manage/th" class="btn btn-primary btn-sm">More Info</a>
+                    <% } else { %>
+                        <div style="height: 29px;"></div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 mb-5"></div>
+    </div>
+    <div class="row">
+        <div class="col-2 mb-5"></div>
+        <div class="col-8 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">재고</h2>
+                </div>
+                <div class="card-box">
+                    <div class="box-content col-lg-4"><img src="../main_assets/image/boxes.png" class="myImg"></div>
+                    <div class="box-content col-lg-8">
+                        <p>
+                            재고
+                        </p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <% if(user == 'JIN' || user== 'DEV'){%>
+                        <a href="/manage/stock" class="btn btn-primary btn-sm">More Info</a>
+                    <% } else { %>
+                        <div style="height: 29px;"></div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 mb-5"></div>
+    </div>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white"> &copy; KITRI_SF_project.
+                PM: JIN HEE SUNG.<br>
+                Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU . </p>
+        </div>
+        <!-- /.container -->
+    </footer>
+    <!-- Bootstrap core JavaScript -->
+    <script src="../main_assets/vendor/jquery/jquery.js"></script>
+    <script src="../main_assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>
