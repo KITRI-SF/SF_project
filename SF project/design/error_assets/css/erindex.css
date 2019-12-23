@@ -1,3 +1,27 @@
  body {
         margin: 80px 0 0 0;
     }
+ 
+.errormain{
+    padding: 100px;
+    text-align: center;
+}
+.errorcode {
+    border: 1px solid;
+    padding: 220px;
+}
+.gth {
+    display: inline-block;
+    width: 101px;
+    height: 34px;
+    border: 1px solid #e3e6e7;
+    background-color: #fafbfc;
+    line-height: 34px;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
+}
+a, a:hover{
+    color: #000000;
+    text-decoration: none;
+}
