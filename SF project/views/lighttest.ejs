@@ -35,64 +35,62 @@
             </div>
         </nav>
         <div class="ilumindex">
-            <div class="row">
-
-                <div class="col-md-2"></div>
-                <div class="col-md-7" id="chart"></div>
-                <div class="col-md-3"></div>
-            </div>
+            
             <%if(cur == undefined) {%>
             <div>
                 <h2>데이터 로딩중 입니다...</h2>
             </div>
             <% } else {%>
-                <div>
-                    <% if(!isAuto) { %>
-                        <% if(st) { %>
-                            <p><b>천장 열림</b></p>
-                        <% } else { %>
-                            <p><b>천장 닫힘</b></p>
-                        <% }%>
-                        <p> 
-                            현재 조도 [ <b><%=cur%></b> ]
-                        </p>
-                    <% } else { %>
-                        <br/>
-                        <br/>
-                        <p> 
-                            현재 조도 [ <b><%=cur%></b> ] 타겟 조도 [ <b><%=aim%></b> ]
-                        </p>
-                    <% }%>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-7" id="chart"></div>
+                    <div class="col-md-3"></div>
                 </div>
-                <div id="chart"></div>
-                <div>
+
+                <div class="row mt-5">
+                    <div class="col-sm-4"></div>
+                    <form method="POST" action="/auto/illum" class="col-sm-2">
+                        <% let illumRemote = isAuto ? 0 : 1; %>
+                        <% let txt = isAuto ? "조도 수동 관리" : "조도 자동 관리"; %>
+                        <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
+                        <button class="btn btn-primary" style="width: 100%;"><%=txt%></button>
+                    </form>
+                </div>
+
+                <div class="row door1">
+                    <div class="col-sm-4 textt"></div>
                     <% if(!isAuto) { %>
-                        <form method="POST" action="/auto/illum">
-                            <% var illumRemote = isAuto ? 0 : 1; %>
+                        <form method="POST" action="/control/illum">
+                            <% let illumRemote = st ? 0 : 1; %>
+                            <% let txt = st ? "천장 닫기" : "천장 열기"; %>
                             <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
-                            <input type="submit" value="조도 자동 관리"  class="btn btn-primary mb-2">
+                            <input type="submit" value="<%=txt%>" class="btn btn-primary">
                         </form>
-                        <% if(!st) { %>
-                        <form method="POST" action="/control/illum">
-                            <input type="text" name="remote" value="1" style="display: none;">
-                            <input type="submit" value="천장 열기" class="btn btn-primary">
-                        </form>
-                        <% } else { %>
-                        <form method="POST" action="/control/illum">
-                            <input type="text" name="remote" value="0" style="display: none;">
-                            <input type="submit" value="천장 닫기" class="btn btn-primary">
-                        </form>
-                        <% } %>
+                        <div class="pl-4">
+                            <% if(st) { %>
+                                <p><b>천장 열림</b></p>
+                            <% } else { %>
+                                <p><b>천장 닫힘</b></p>
+                            <% }%>
+                            <p> 
+                                현재 조도 [ <b><%=cur%></b> ]
+                            </p>
+                        </div>
                     <% } else {%>
-                        <form method="POST" action="/auto/illum">
-                            <% var illumRemote = isAuto ? 0 : 1; %>
-                            <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
-                            <input type="submit" value="조도 수동 관리"  class="btn btn-primary mb-2">
-                        </form>
                         <form method="POST" action="/aim/illum" style=" display:grid; grid-template-columns: auto auto;">
-                            <input type="text" name="remote" value="<%=aim%>" style="width: 20%;" class="ml-auto mr-2">
-                            <input type="submit" value="타겟 조도 변경"  class="btn btn-primary"  style="width: 30%;">
+                            <div class="textbox">
+                                <input type="text" name="remote" value="<%=aim%>">
+                            </div>
+                            <div class="settingbut">
+                                <input type="submit" value="타겟 조도 변경"  class="btn btn-primary">
+                            </div>
                         </form>
+                        <div class="pl-4 pt-1">
+                            <p> 
+                                현재 조도 [ <b><%=cur%></b> ]<br/>
+                                타겟 조도 [ <b><%=aim%></b> ]
+                            </p>
+                        </div>
                     <% } %>
                 </div>
             <% }%>
