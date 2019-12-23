@@ -166,9 +166,18 @@
                 <div class="card-box">
                     <div class="box-content col-lg-4"><img src="../main_assets/image/boxes.png" class="myImg"></div>
                     <div class="box-content col-lg-8">
-                        <p>
-                            재고
-                        </p>
+                        <table style="margin: 0 auto;">
+                            <tr>
+                                <th>재고명</th>
+                                <th>재고 수량</th>
+                            </tr>
+                            <% results2.forEach(result2=>{ %>
+                                <tr>
+                                    <td> <%=result2.p_name%> </td>
+                                    <td> <%=result2.p_stock%> </td>
+                                </tr>
+                            <% }); %>
+                        </table>
                     </div>
                 </div>
                 <div class="card-footer">

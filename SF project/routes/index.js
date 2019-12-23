@@ -22,14 +22,18 @@ module.exports = (app, p) => {
                         connection.release();
                         throw err;
                     }
-                    selectQuery = `
-                        select ITEM_CATEGORY, ITEM_NAME, ITEM_STOCK
-                        from items
-                        where item_stock between 0 and 40
-                        order by item_stock;
+                    let selectQuery = `
+                        select p_name, p_stock
+                        from product;
                     `;
-                    connection.release();
-                    res.render('main',{user:sess.user, results:results});
+                    connection.query(selectQuery,(err,results2)=>{
+                        if(err){
+                            connection.release();
+                            throw err;
+                        }
+                        connection.release();
+                        res.render('main',{user:sess.user, results:results, results2:results2});
+                    });
                 });
             });
         }

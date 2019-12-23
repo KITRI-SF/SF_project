@@ -2,45 +2,69 @@
         <%- include('./include/head') %>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <link rel="stylesheet" href="../css/billboard.css">
+        <link rel="stylesheet" href="../stock_assets/css/stockindex.css">
         <script src="../js/billboard.js"></script>
-		<!-- <link rel="stylesheet" href="../css/main.css" /> -->
-        <link rel="stylesheet"  href="../css/style2.css">
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	</head>
 	<body>
-		<!-- Header -->
-			<header id="header">
-                <h1><%=user%> 님 환영합니다</h1>
-            </header>
-
-		<!-- Main -->
-			<section id="main" class="wrapper">
-                <div class="container mt-3"><br>
-                    <header class="major special">
-                        <h2>재고 페이지</h2>
-                    </header>
-                    <br><br><br><br>
-                    <h4 align="center">창고 재고율</h4>
-                    <div id="gaugeChart"></div>
-                    <br><br><br><br>
-                    <h4 align="center">재고 현황</h4>
-                    <div id="pieChart"></div>
-                    <br><br>
-                    <div id="barChart"></div>
-                    <br><br><br><br>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand boldst" href="/"><img src="../stock_assets/image/50px35pxlogo.png" alt="">&nbsp;&nbsp;SF KITRI</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <h3 class="nav-link"><%=user%> 님</h3>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/logout">Log out</a>
+                        </li>
+                    </ul>
                 </div>
-			</section>
+            </div>
+        </nav>
+
+		<!-- 메인페이지 작성 -->
+        <div class="stock">
+            <div>
+                <div class="col-sm-6">
+                    <h1>재고량</h1>
+                </div>
+                <div>
+            <div id="gaugeChart"></div>
+                </div>
+            </div>
+            <div>
+                <div class="col-sm-6">
+                    <h1>과자 비율</h1>
+                </div>
+                <div>
+            <div id="pieChart"></div>
+                </div>
+            </div>
+            <div>
+                <div class="col-sm-6 barChartp">
+                    <h1>필요 소재</h1>
+                </div>
+                <div>
+                    <div id="barChart"></div>
+                </div>
+            </div>
+        </div>
 
         <!-- Footer -->
-        <footer id="footer">
-            <div class="inner">
-                <ul class="copyright">
-                    <img src="../img/exlogo4.png" alt="" />
-                    <li>&copy; KITRI_SF_project.</li><br>
-                    <li>PM: <a href="http://unsplash.com">JIN HEE SUNG</a>.</li><br>
-                    <li>Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU  </a>.</li>
-                </ul>
+        <footer class="py-5 bg-dark" style="bottom: -1px;">
+            <div class="container">
+                <p class="m-0 text-center text-white"> 
+                    &copy; KITRI_SF_project.
+                    PM: JIN HEE SUNG.<br>
+                    Member: KIM SAMUEL, KIM YOUNGROK, PARK JONGJIN, LEE SANGJIN, CHOI INKYU . 
+                </p>
             </div>
+            <!-- /.container -->
         </footer>
 
     <!-- Scripts -->

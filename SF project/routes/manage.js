@@ -4,11 +4,8 @@ module.exports = (app, p) => {
     const mysql = require('mysql');
     router.get('/illum',(req,res)=>{
         let sess = req.session;
-        console.log(sess.user);
-        console.log(sess.user != 'KIM');
         if(!sess.user) { res.render('index',{redirect:`'/'`}); }
         if(!(sess.user == 'KIM' || sess.user == 'DEV')) {
-            console.log("test");
             res.render('index',{redirect:`'/'`});
         }
         else {

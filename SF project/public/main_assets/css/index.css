@@ -55,3 +55,8 @@
     background-color: #e0e0e0;
     border: none;
 }
+
+table, th, td {
+    border: solid 2px rgb(75, 64, 64);
+    padding: 8px 16px;
+}
