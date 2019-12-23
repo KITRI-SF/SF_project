@@ -1,0 +1,15 @@
+    body {
+        margin: 100px 0 0 0;
+        padding: 10px 0 0 0;
+    }
+
+    .ilumindex {
+        margin-bottom: 100px;
+        text-align: center;
+    }
+    .gaugebar{
+      margin-bottom: 20px;
+    }
+    .btn{
+      padding: 20px;
+    }
