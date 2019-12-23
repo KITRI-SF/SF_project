@@ -11,10 +11,35 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/small-business.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" type="text/css" href="css/lightindex.css">
-   
+    <link rel="stylesheet" type="text/css" href="css/erindex.css">
+
+
+    <style type="text/css">
+        
+        .errormain{
+            padding: 100px;
+            text-align: center;
+        }
+        .errorcode {
+            border: 1px solid;
+            padding: 220px;
+        }
+        .gth {
+            display: inline-block;
+            width: 101px;
+            height: 34px;
+            border: 1px solid #e3e6e7;
+            background-color: #fafbfc;
+            line-height: 34px;
+            text-align: center;
+            vertical-align: top;
+            white-space: nowrap;
+        }
+        a, a:hover{
+            color: #000000;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,41 +53,26 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">__님 환영합니다</a>
+                        <a class="nav-link" href="#">__님</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log out</a>
+                        <a class="nav-link" href="#">log out</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- 메인페이지 작성 -->
-    <div class="ilumindex">
-        <h1>조도 센서 그래프</h1>
-        <!-- 그래프 넣는 곳 -->
-        <img src="image/graph.png"><br>
-        <div class="gaugebar">
-            <input type="range" name="points" min="0" max="1023" step="1" value="0" oninput="document.getElementById('value1').innerHTML=this.value;" class="custom-range" style="width: 20% ">
-            <div id="value1">센서값</div>
+    <div class="errormain">
+       
+       <div class="errorcode">
+     요청하신 페이지를 찾을 수 없습니다.<br><br>
+    <div class="gth"><a href="../main_assets/testmainindex.html">Home</a></div>
+       
         </div>
-
-
-      <h2><P>현재 상태: On/Off</P> </h2>
-      <button class="btn btn-primary col-sm-3"> 조도 자동관리</button>
-      <button class="btn btn-primary col-sm-3"> 천장 열기</button>
-
-
     </div>
-
-
-
-
-
-
-
+    
     <!-- Footer -->
-    <footer class="py-5 bg-dark" style="bottom: -1px;">
+    <footer class="py-5 bg-dark fixed-bottom">
         <div class="container">
             <p class="m-0 text-center text-white"> &copy; KITRI_SF_project.
                 PM: JIN HEE SUNG.<br>

@@ -5,7 +5,6 @@
 
     .ilumindex {
         margin-bottom: 100px;
-        text-align: center;
     }
 
     .gaugebar {
@@ -13,18 +12,31 @@
     }
 
     .btn {
-        padding: 20px;
-
+        padding: 15px;
     }
 
-    .bt1 {
-        background-color: #006600;
+    .btn1 {
+        margin-right: 30px;
     }
-
-    .bt2 {
-        background-color: #660000;
-    }
-
     .chartd {
+        margin-top: 50px;
         margin-bottom: 50px;
+
+    }
+
+    .butsize{
+        margin-top: 30px;
+    }
+
+    .dtinp{
+        margin-top: 15px;
+    }
+
+    .binarea {
+        text-align: right;
+        margin-left: 38px;
+    }
+
+    .autotem {
+        margin-right: 50px;
     }

@@ -16,8 +16,6 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <link rel="stylesheet" href="css/billboard.css">
     <script src="js/billboard.js"></script>
-
-   
 </head>
 
 <body>
@@ -40,16 +38,60 @@
             </div>
         </div>
     </nav>
+
+
+
+
+
+
+
+
     <!-- 메인페이지 작성 -->
     <div class="ilumindex">
         <h1>온도 습도 그래프</h1>
         <!-- 그래프 넣는 곳 -->
-        <div class="chartd">
-            <div id="chart"></div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="chartd col-md-8">
+                <div id="chart">
+                </div>
+            </div>
+            <div class="col-md-2"> </div>
         </div>
-        <button class="btn btn-primary col-sm-3 bt1"> 제습기 ON</button>
-        <button class="btn btn-primary col-sm-3 bt2"> 난방기 OFF</button>
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-4">
+                <input type="submit" class="btn btn-primary btn1" value="난방 수동 관리"> 
+                <input type="submit" class="btn btn-primary" value="제습 수동 관리"> 
+            </div>
+        </div>
+
+        <div class="row butsize">
+            <div class="col-md-2"></div>
+            <div class="col-md-2"></div>
+            <input type="submit" class="btn btn-primary col-md-2" value="난방 자동 관리"> 
+
+            <div class="col-md-2"></div>
+            <input type="submit" class="btn btn-primary col-md-2" value="변경">
+        </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Footer -->
     <footer class="py-5 bg-dark" style="bottom: -1px;">
         <div class="container">
