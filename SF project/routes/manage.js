@@ -2,11 +2,16 @@ module.exports = (app, p) => {
     const express = require('express');
     const router = express.Router();
     const mysql = require('mysql');
-
     router.get('/illum',(req,res)=>{
         let sess = req.session;
-        if(!sess.user) { res.render('index',{redirect:`'/'`, prev:false}); }
-
+        console.log(sess.user);
+        console.log(sess.user != 'KIM');
+        if(!sess.user) { res.render('index',{redirect:`'/'`}); }
+        if(!(sess.user == 'KIM' || sess.user == 'DEV')) {
+            console.log("test");
+            res.render('index',{redirect:`'/'`});
+        }
+        else {
         p.getConnection((err,connection)=>{
             if(err){
                 connection.release();
@@ -56,12 +61,16 @@ module.exports = (app, p) => {
                 });
             });
         });
+        }
     });
 
     router.get('/th',(req,res)=>{
         let sess = req.session;
         if(!sess.user) { res.render('index',{redirect:`'/'`}); }
-
+        if(!(sess.user == 'LEE' || sess.user == 'DEV')) {
+            res.render('index',{redirect:`'/'`});
+        }
+        else {
         p.getConnection((err, connection)=>{
             if(err){
                 connection.release();
@@ -122,12 +131,16 @@ module.exports = (app, p) => {
                 
             });
         });
+        }
     });
 
     router.get('/stock',(req,res)=>{
         let sess = req.session;
-        if(!sess.user) { res.render('index',{redirect:`'/'`, prev:false}); }
-
+        if(!sess.user) { res.render('index',{redirect:`'/'`}); }
+        if(!(sess.user == 'JIN' || sess.user == 'DEV')) {
+            res.render('index',{redirect:`'/'`});
+        }
+        else {
         p.getConnection((err,connection)=>{
             if(err){
                 connection.release();
@@ -197,6 +210,7 @@ module.exports = (app, p) => {
                 });
             });
         });
+        }
     });
 
     return router;
