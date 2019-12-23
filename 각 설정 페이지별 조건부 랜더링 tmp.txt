@@ -1,0 +1,153 @@
+<div>
+                    <% if(!isAuto) { %>
+                        <% if(st) { %>
+                            <p><b>천장 열림</b></p>
+                        <% } else { %>
+                            <p><b>천장 닫힘</b></p>
+                        <% }%>
+                        <p> 
+                            현재 조도 [ <b><%=cur%></b> ]
+                        </p>
+                    <% } else { %>
+                        <br/>
+                        <br/>
+                        <p> 
+                            현재 조도 [ <b><%=cur%></b> ] 타겟 조도 [ <b><%=aim%></b> ]
+                        </p>
+                    <% }%>
+                </div>
+
+<div>
+                    <% if(!isAuto) { %>
+                        <form method="POST" action="/auto/illum">
+                            <% var illumRemote = isAuto ? 0 : 1; %>
+                            <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
+                            <input type="submit" value="조도 자동 관리"  class="btn btn-primary mb-2">
+                        </form>
+                        <% if(!st) { %>
+                        <form method="POST" action="/control/illum">
+                            <input type="text" name="remote" value="1" style="display: none;">
+                            <input type="submit" value="천장 열기" class="btn btn-primary">
+                        </form>
+                        <% } else { %>
+                        <form method="POST" action="/control/illum">
+                            <input type="text" name="remote" value="0" style="display: none;">
+                            <input type="submit" value="천장 닫기" class="btn btn-primary">
+                        </form>
+                        <% } %>
+                    <% } else {%>
+                        <form method="POST" action="/auto/illum">
+                            <% var illumRemote = isAuto ? 0 : 1; %>
+                            <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
+                            <input type="submit" value="조도 수동 관리"  class="btn btn-primary mb-2">
+                        </form>
+                        <form method="POST" action="/aim/illum" style=" display:grid; grid-template-columns: auto auto;">
+                            <input type="text" name="remote" value="<%=aim%>" style="width: 20%;" class="ml-auto mr-2">
+                            <input type="submit" value="타겟 조도 변경"  class="btn btn-primary"  style="width: 30%;">
+                        </form>
+                    <% } %>
+                </div>
+
+select date_format(date_add(NOW(),interval -11 minute),'%i') "date", truncate(date_format(date_add(NOW(),interval -11 minute),'%i')%10,0) = 0 "calc" from dual;
+
+<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="container">
+                    <%if(curT == undefined || curH == undefined) {%>
+                    <header class="major special">
+                        <h2>데이터 로딩중 입니다...</h2>
+                    </header>
+                    <% } else {%>
+					<header class="major special">
+                        <h2>온/습도 관리 페이지</h2>
+                        <% if(!isAuto[0]){ %>
+                            <h1>
+                                현재 온도 [<%=curT%>]
+                            </h1>
+                        <% } else {%>
+                            <h1>
+                                현재 온도 [<%=curT%>] 타겟 온도 [<%=aim[0]%>]
+                            </h1>
+                        <% } %>
+                        <% if(!isAuto[1]){ %>
+                            <h1>
+                                현재 습도 [<%=curH%>]
+                            </h1>
+                        <% } else {%>
+                            <h1>
+                                현재 습도 [<%=curH%>] 타겟 습도 [<%=aim[1]%>]
+                            </h1>
+                        <% } %>
+                    </header>
+                    <div id="chart"></div>
+                    <div style="
+                        display: grid;
+                        grid-template-columns: auto auto;
+                        margin-top: 20px;
+                    ">
+                        <div>
+                            <% if(!isAuto[0]){ %>
+                                <form method="POST" action="/auto/temp">
+                                    <% var tempRemote = isAuto[0] ? 0 : 1; %>
+                                    <input type="text" name="remote" value="<%=tempRemote%>" style="display: none;">
+                                    <input type="submit" value="난방 자동 관리"  class="big" style="position: relative; left: 48%;">
+                                </form>
+                                <% if(!st[0]) { %>
+                                <form method="POST" action="/control/temp">
+                                    <input type="text" name="remote" value="1" style="display: none;">
+                                    <input type="submit" value="난방기 켜기"  class="big" style="position: relative; left: 50%;">
+                                </form>
+                                <% } else { %>
+                                <form method="POST" action="/control/temp">
+                                    <input type="text" name="remote" value="0" style="display: none;">
+                                    <input type="submit" value="난방기 끄기"  class="big" style="position: relative; left: 50%;">
+                                </form>
+                                <% } %>
+                            <% } else {%>
+                                <form method="POST" action="/auto/temp" style="text-align: right;">
+                                    <% var tempRemote = isAuto[0] ? 0 : 1; %>
+                                    <input type="text" name="remote" value="<%=tempRemote%>" style="display: none;">
+                                    <input type="submit" value="난방 수동 관리"  class="big">
+                                </form>
+                                <form method="POST" action="/aim/temp" style="display: grid; grid-template-columns: auto auto; justify-items: end;">
+                                    <input type="text" name="remote" value="<%=aim[0]%>" style="width:80%;">
+                                    <input type="submit" value="타겟 온도 변경"  class="big" style="width:80%;">
+                                </form>
+                            <% } %>
+                        </div>
+                        
+
+                        <div>
+                            <% if(!isAuto[1]){ %>
+                                <form method="POST" action="/auto/humid" style="text-align: right;">
+                                    <% var humidRemote = isAuto[1] ? 0 : 1; %>
+                                    <input type="text" name="remote" value="<%=humidRemote%>" style="display: none;">
+                                    <input type="submit" value="제습 자동 관리"  class="big" style="position: relative; right: 10%;">
+                                </form>
+                                <% if(!st[1]) { %>
+                                <form method="POST" action="/control/humid" style="text-align: right;">
+                                    <input type="text" name="remote" value="1" style="display: none;">
+                                    <input type="submit" value="제습기 켜기" class="big" style="position: relative; right:12%">
+                                </form>
+                                <% } else { %>
+                                <form method="POST" action="/control/humid" style="text-align: right;">
+                                    <input type="text" name="remote" value="0" style="display: none;">
+                                    <input type="submit" value="제습기 끄기"  class="big" style="position: relative; right:12%">
+                                </form>
+                                <% } %>
+                            <% } else {%>
+                                <form method="POST" action="/auto/humid" style="text-align: right;">
+                                    <% var humidRemote = isAuto[1] ? 0 : 1; %>
+                                    <input type="text" name="remote" value="<%=humidRemote%>" style="display: none;">
+                                    <input type="submit" value="제습 수동 관리"  class="big">
+                                </form>
+                                <form method="POST" action="/aim/humid" style="display: grid; grid-template-columns: auto auto; justify-items: end;">
+                                    <input type="text" name="remote" value="<%=aim[1]%>" style="width:80%;">
+                                    <input type="submit" value="타겟 습도 변경"  class="big" style="width:80%;">
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                    <% }%>
+				</div>
+			</section>
