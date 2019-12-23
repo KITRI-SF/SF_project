@@ -1,0 +1,42 @@
+ body {
+        margin: 100px 0 0 0;
+        padding: 10px 0 0 0;
+    }
+
+    .ilumindex {
+        margin-bottom: 100px;
+    }
+
+    .gaugebar {
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        padding: 15px;
+    }
+
+    .btn1 {
+        margin-right: 30px;
+    }
+    .chartd {
+        margin-top: 50px;
+        margin-bottom: 50px;
+
+    }
+
+    .butsize{
+        margin-top: 30px;
+    }
+
+    .dtinp{
+        margin-top: 15px;
+    }
+
+    .binarea {
+        text-align: right;
+        margin-left: 38px;
+    }
+
+    .autotem {
+        margin-right: 50px;
+    }

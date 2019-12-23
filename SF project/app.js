@@ -62,7 +62,13 @@ app.use((req,res,next)=>{
 });
 
 app.use((err,req,res,next)=>{
-    res.render('error');
+    let sess = req.session;
+    if(sess.user) {
+        res.render('error',{user:sess.user});
+    }
+    else {
+        res.render('index',{redirect:`'/'`});
+    }
 });
 ////error handling area
 
