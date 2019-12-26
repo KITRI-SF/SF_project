@@ -45,7 +45,7 @@
                     <div class="col-md-2">
                         <form method="POST" action="/auto/temp">
                             <% var tempRemote = isAuto[0] ? 0 : 1; %>
-                            <% var tempTxt = isAuto[0] ? "난방 수동 관리" : "난방 자동 관리"; %>
+                            <% var tempTxt = isAuto[0] ? "냉난방 수동 관리" : "냉난방 자동 관리"; %>
                             <input type="text" name="remote" value="<%=tempRemote%>" style="display: none;">
                             <input type="submit" class="btn btn-primary btn1" value="<%=tempTxt%>" style="width: 100%;"> 
                         </form>
@@ -71,11 +71,11 @@
                     </div>
                     <div class="col-md-2">
                         <% if(!isAuto[0]){ %>
-                            <% let heatRemote = st[0] ? 0 : 1; %>
-                            <% let heatTxt = st[0] ? "난방기 끄기" : "난방기 켜기"; %>
+                            <% let ACRemote = st[0] ? 0 : 1; %>
+                            <% let ACTxt = st[0] ? "냉난방기 끄기" : "냉난방기 켜기"; %>
                             <form method="POST" action="/control/temp">
-                                <input type="text" name="remote" value="<%=heatRemote%>" style="display: none;">
-                                <input type="submit" value="<%=heatTxt%>" class="btn btn-primary btn1" style="width: 100%;">
+                                <input type="text" name="remote" value="<%=ACRemote%>" style="display: none;">
+                                <input type="submit" value="<%=ACTxt%>" class="btn btn-primary btn1" style="width: 100%;">
                             </form>
                         <% } else {%>
                             <form method="POST" action="/aim/temp" onsubmit="return Temp_addParameter()">
@@ -111,8 +111,8 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-2">
                         <% if(!isAuto[0]){ %>
-                            <% let heatdSt = st[0] ? "난방기 on" : "난방기 off"; %>
-                            <p style="margin-left: 2vw;"><b>현재 온도 [<%=curT%>]&nbsp;&nbsp;[ <%=heatdSt%> ]</b></p>
+                            <% let ACSt = st[0] ? "냉난방기 on" : "냉난방기 off"; %>
+                            <p style="margin-left: 2vw;"><b>현재 온도 [<%=curT%>]&nbsp;&nbsp;[ <%=ACSt%> ]</b></p>
                         <% } else {%>
                             <p style="margin-left: 2vw;"><b>현재 온도 [<%=curT%>]&nbsp;&nbsp;타겟 온도 [<%=aim[0]%>]</b></p>
                         <% } %>

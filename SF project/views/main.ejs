@@ -7,14 +7,14 @@
 </head>
 <% 
     var temp=-1, humid=-1, light=-1;
-    var heater=-1, dehumid=-1, roof=-1;
+    var air_conditioner=-1, dehumid=-1, roof=-1;
     var tAuto=-1, hAuto=-1, ilAuto=-1;
 
     results.forEach(result => {
         switch(result.sensor_id){
             case 1:
                 temp = result.sensor_data;
-                heater = result.status;
+                air_conditioner = result.status;
                 tAuto = result.is_auto;
             break;
 
@@ -36,7 +36,7 @@
     });
 
     if(temp != -1){
-        heater = heater ? "on" : "off";
+        air_conditioner = air_conditioner ? "on" : "off";
         dehumid = dehumid ? "on" : "off";
         roof = roof ? "open" : "close";
     }
@@ -124,9 +124,9 @@
                                     현재 온도는 <%=temp%> ˚C 입니다.<br>
                                     현재 습도는 <%=humid%> % 입니다.<br>
                                     <% if(tAuto == 0) { %>
-                                        난방기 [ <%=heater%> ]
+                                        냉난방기 [ <%=air_conditioner%> ]
                                     <% } else { %>
-                                        난방 자동 관리 가동중
+                                        냉난방 자동 관리 가동중
                                     <% } %>
                                     <br>
                                     <% if(hAuto == 0) { %>
