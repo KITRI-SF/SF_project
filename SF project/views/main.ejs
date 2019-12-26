@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../main_assets/css/index.css" />
 </head>
 <% 
-    var temp=-1, humid=-1, illum=-1;
+    var temp=-1, humid=-1, light=-1;
     var heater=-1, dehumid=-1, roof=-1;
     var tAuto=-1, hAuto=-1, ilAuto=-1;
 
@@ -25,7 +25,7 @@
             break;
 
             case 3:
-                illum = result.sensor_data;
+                light = result.sensor_data;
                 roof = result.status;
                 ilAuto = result.is_auto;
             break;
@@ -76,10 +76,10 @@
                 <div class="card-box">
                     <div class="box-content col-lg-4"><img src="../main_assets/image/light.png" class="myImg"></div>
                     <div class="box-content col-lg-8">
-                        <% if(illum != -1) { %>
+                        <% if(light != -1) { %>
                             <p>
                                 <b>
-                                    현재 조도는 <%=illum%> 입니다.<br>
+                                    현재 조도는 <%=light%> 입니다.<br>
                                     <% if(ilAuto == 0) { %>
                                         현재 천장은 <%=roof%> 상태입니다.
                                     <% } else { %>
@@ -98,8 +98,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <% if(user == 'KIM' || user== 'DEV'){%>
-                        <a href="/manage/illum" class="btn btn-primary btn-sm">More Info</a>
+                    <% if(sensors.includes(3) || user== 'DEV'){%>
+                        <a href="/manage/light" class="btn btn-primary btn-sm">More Info</a>
                     <% } else { %>
                         <div style="height: 29px;"></div>
                     <%}%>
@@ -146,7 +146,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <% if(user == 'LEE' || user== 'DEV'){%>
+                    <% if(sensors.includes(1) || user== 'DEV'){%>
                         <a href="/manage/th" class="btn btn-primary btn-sm">More Info</a>
                     <% } else { %>
                         <div style="height: 29px;"></div>
@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <% if(user == 'JIN' || user== 'DEV'){%>
+                    <% if(sensors.includes(4) || user== 'DEV'){%>
                         <a href="/manage/stock" class="btn btn-primary btn-sm">More Info</a>
                     <% } else { %>
                         <div style="height: 29px;"></div>

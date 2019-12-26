@@ -35,7 +35,6 @@
             </div>
         </nav>
         <div class="ilumindex">
-            
             <%if(cur == undefined) {%>
             <div>
                 <h2>데이터 로딩중 입니다...</h2>
@@ -49,7 +48,7 @@
 
                 <div class="row mt-5">
                     <div class="col-sm-4"></div>
-                    <form method="POST" action="/auto/illum" class="col-sm-2">
+                    <form method="POST" action="/auto/light" class="col-sm-2">
                         <% let illumRemote = isAuto ? 0 : 1; %>
                         <% let txt = isAuto ? "조도 수동 관리" : "조도 자동 관리"; %>
                         <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
@@ -60,7 +59,7 @@
                 <div class="row door1">
                     <div class="col-sm-4 textt"></div>
                     <% if(!isAuto) { %>
-                        <form method="POST" action="/control/illum">
+                        <form method="POST" action="/control/light">
                             <% let illumRemote = st ? 0 : 1; %>
                             <% let txt = st ? "천장 닫기" : "천장 열기"; %>
                             <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
@@ -77,7 +76,7 @@
                             </p>
                         </div>
                     <% } else {%>
-                        <form method="POST" action="/aim/illum" style=" display:grid; grid-template-columns: auto auto;">
+                        <form method="POST" action="/aim/light" style=" display:grid; grid-template-columns: auto auto;">
                             <div class="textbox">
                                 <input type="text" name="remote" value="<%=aim%>">
                             </div>
@@ -114,7 +113,7 @@
                 xFormat: "%Y-%m-%d %H:%M:%S",
                 columns: [
                     ["x",<%-date%>],
-                    ["조도", <%=illum%>]
+                    ["조도", <%=light%>]
                 ]
             },
             color: {
@@ -132,7 +131,7 @@
                 },
                 y: {
                     label: "조도",
-                    max: 1024,
+                    max: 100,
                     min: 0
                 }
             },

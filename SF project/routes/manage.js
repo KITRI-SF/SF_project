@@ -2,7 +2,7 @@ module.exports = (app, p) => {
     const express = require('express');
     const router = express.Router();
     const mysql = require('mysql');
-    router.get('/illum',(req,res)=>{
+    router.get('/light',(req,res)=>{
         let sess = req.session;
         if(!sess.user) { res.render('index',{redirect:`'/'`}); }
         if(!(sess.user == 'KIM' || sess.user == 'DEV')) {
@@ -15,7 +15,7 @@ module.exports = (app, p) => {
                 throw err;
             }
             let illumQuery = `
-                select sensor_data "illum", date_format(check_date,'%Y-%m-%d %H:%i:%s') "check_date"
+                select sensor_data "light", date_format(check_date,'%Y-%m-%d %H:%i:%s') "check_date"
                 from sensors
                 where sensor_id = 3
                 and check_date > subdate(now(), interval 30 minute)
@@ -26,15 +26,15 @@ module.exports = (app, p) => {
                     connection.release();
                     throw err;
                 }
-                var illum = new Array();
+                var light = new Array();
                 var date = new Array();
                 var cur = undefined;
                 if(results[0]){
                     results.forEach(result => {
-                        illum.push(result.illum);
+                        light.push(result.light);
                         date.push(`"${result.check_date}"`);
                     });
-                    cur = results[results.length-1].illum;
+                    cur = results[results.length-1].light;
                 }
                 let statusQuery = `
                     select m.status "status", m.is_auto "is_auto", a.aim_data "aim_data"
@@ -54,7 +54,7 @@ module.exports = (app, p) => {
                         isAuto = results[0].is_auto;
                     }
                     connection.release();
-                    res.render('lighttest',{user:sess.user, illum:illum, date:date, aim:aim, cur:cur, st:st, isAuto:isAuto});
+                    res.render('lighttest',{user:sess.user, light:light, date:date, aim:aim, cur:cur, st:st, isAuto:isAuto});
                 });
             });
         });

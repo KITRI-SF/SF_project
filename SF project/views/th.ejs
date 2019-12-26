@@ -62,6 +62,7 @@
                 </div>
         
                 <div class="row butsize">
+                    
                     <div class="col-md-2"></div>
                     <div class="col-md-2">
                         <% if(isAuto[0]){ %>
@@ -105,29 +106,29 @@
                         <% } %>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-2"></div>   
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <% if(!isAuto[0]){ %>
+                            <% let heatdSt = st[0] ? "난방기 on" : "난방기 off"; %>
+                            <p style="margin-left: 2vw;"><b>현재 온도 [<%=curT%>]&nbsp;&nbsp;[ <%=heatdSt%> ]</b></p>
+                        <% } else {%>
+                            <p style="margin-left: 2vw;"><b>현재 온도 [<%=curT%>]&nbsp;&nbsp;타겟 온도 [<%=aim[0]%>]</b></p>
+                        <% } %>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <% if(!isAuto[1]){ %>
+                            <% let dehumiddSt = st[1] ? "제습기 on" : "제습기 off"; %>
+                            <p style="margin-left: 2vw;"><b>현재 습도 [<%=curH%>]&nbsp;&nbsp;[ <%=dehumiddSt%> ]</b></p>
+    
+                        <% } else {%>
+                            <p style="margin-left: 2vw;"><b>현재 습도 [<%=curH%>]&nbsp;&nbsp;타겟 습도 [<%=aim[1]%>]</b></p>
+                        <% } %>
+                    </div>
+                </div>
             <% } %>
-            <div class="row">
-                <div class="col-md-2"></div>   
-                <div class="col-md-2"></div>
-                <div class="col-md-2">
-                    <% if(!isAuto[0]){ %>
-                        <% let heatdSt = st[0] ? "난방기 on" : "난방기 off"; %>
-                        <p style="margin-left: 2vw;"><b>현재 온도 [<%=curT%>]&nbsp;&nbsp;[ <%=heatdSt%> ]</b></p>
-                    <% } else {%>
-                        <p style="margin-left: 2vw;"><b>현재 온도 [<%=curT%>]&nbsp;&nbsp;타겟 온도 [<%=aim[0]%>]</b></p>
-                    <% } %>
-                </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-2">
-                    <% if(!isAuto[1]){ %>
-                        <% let dehumiddSt = st[1] ? "제습기 on" : "제습기 off"; %>
-                        <p style="margin-left: 2vw;"><b>현재 습도 [<%=curH%>]&nbsp;&nbsp;[ <%=dehumiddSt%> ]</b></p>
-
-                    <% } else {%>
-                        <p style="margin-left: 2vw;"><b>현재 습도 [<%=curH%>]&nbsp;&nbsp;타겟 습도 [<%=aim[1]%>]</b></p>
-                    <% } %>
-                </div>
-            </div>
         </div>
 
         <!-- Footer -->

@@ -32,7 +32,7 @@ module.exports = (app, p) => {
                             throw err;
                         }
                         connection.release();
-                        res.render('main',{user:sess.user, results:results, results2:results2});
+                        res.render('main',{user:sess.user, sensors:sess.sensor,results:results, results2:results2});
                     });
                 });
             });

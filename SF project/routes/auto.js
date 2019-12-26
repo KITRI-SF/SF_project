@@ -47,7 +47,7 @@ module.exports = (app, p) => {
         });
     });    
 
-    router.post('/illum',(req,res)=>{
+    router.post('/light',(req,res)=>{
         let remote = req.body.remote;
         let cate = req.params.cate;
         p.getConnection((err,connection)=>{
@@ -64,7 +64,7 @@ module.exports = (app, p) => {
                     throw err;
                 }
                 connection.release();
-                res.render('index',{redirect:`'/manage/illum'`});
+                res.render('index',{redirect:`'/manage/light'`});
             })
         });
     });

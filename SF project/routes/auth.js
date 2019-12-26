@@ -28,21 +28,38 @@ module.exports = function(app, p){
                 Id = req.body.userId, 
                 Pwd = req.body.userPwd
             ]
-            const select_query = `
-            select USER_ID, USER_PW, USER_NAME
-            from users
-            where binary(USER_ID) = ? and binary(USER_PW) = ?;
+            let select_query = `
+                select USER_ID, USER_PW, USER_NAME
+                from users
+                where binary(USER_ID) = ? and binary(USER_PW) = ?;
             `;
             connection.query(select_query,user,(err,result)=>{
                 if(err){
                     connection.release();
                     throw err;
                 }
-                connection.release();
                 if(result[0]){
+                    let select_query = `
+                        select sensor_id
+                        from sensor_info
+                        where sensor_admin_id = ?;
+                    `;
                     let sess = req.session;
                     sess.user = result[0].USER_NAME;
-                    res.render('index',{redirect:`'/'`});
+                    sess.sensor = sess.user == "DEV" ? [1,2,3] : [];
+                    connection.query(select_query,[result[0].USER_ID],(err,result2)=>{
+                        if(err){
+                            connection.release();
+                            throw err;
+                        }
+                        if(result2[0]){
+                            result2.forEach(result => {
+                                sess.sensor.push(result.sensor_id);
+                            });
+                        }
+                        connection.release();
+                        res.render('index',{redirect:`'/'`});
+                    });
                 }
                 else{
                     res.render('testlogin',{auth:false});
