@@ -49,8 +49,8 @@
                 <div class="row mt-5">
                     <div class="col-sm-4"></div>
                     <form method="POST" action="/auto/light" class="col-sm-2">
-                        <% let illumRemote = isAuto ? 0 : 1; %>
-                        <% let txt = isAuto ? "조도 수동 관리" : "조도 자동 관리"; %>
+                        <% let illumRemote = isAuto ? 0 : 1; %> <!-- 변경할 조도 자동/수동 상태 표현 변수 | post 시 넘어갈 값 -->
+                        <% let txt = isAuto ? "조도 수동 관리" : "조도 자동 관리"; %> <!-- 버튼에 들어갈 현재 상태 문자열 -->
                         <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
                         <button class="btn btn-primary" style="width: 100%;"><%=txt%></button>
                     </form>
@@ -60,8 +60,8 @@
                     <div class="col-sm-4 textt"></div>
                     <% if(!isAuto) { %>
                         <form method="POST" action="/control/light">
-                            <% let illumRemote = st ? 0 : 1; %>
-                            <% let txt = st ? "천장 닫기" : "천장 열기"; %>
+                            <% let illumRemote = st ? 0 : 1; %> <!-- 변경할 천장의 상태 표현 변수 | post 시 넘어갈 값-->
+                            <% let txt = st ? "천장 닫기" : "천장 열기"; %> <!-- 버튼에 들어갈 현재 상태 문자열 -->
                             <input type="text" name="remote" value="<%=illumRemote%>" style="display: none;">
                             <input type="submit" value="<%=txt%>" class="btn btn-primary">
                         </form>

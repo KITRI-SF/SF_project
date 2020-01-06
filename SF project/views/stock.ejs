@@ -114,7 +114,7 @@
                     [<%-prd[0]%>,<%=mat_s[0]%>]
                 ],
                 type: "bar",
-                colors: <%- JSON.stringify(color)%>,
+                colors: <%- JSON.stringify(color)%>, //ejs가 json을 읽지 못하기 때문에 JSON.stringify를 사용해서 표현
                 // color: function(color, d) {
                 //     return (d.id && d.id === "data3") ?
                 //         d3.rgb(color).darker(d.value / 150).toString() : color;
@@ -153,9 +153,9 @@
                     let col_s;
                     let cate;
                     p_info.forEach((p,ind)=>{
-                        if(p[0] == id){
-                            col_s = $.merge(p,(JSON.parse('<%-JSON.stringify(mat_s)%>')[ind]));
-                            cate = (<%-JSON.stringify(mat_n)%>[ind]);
+                        if(p[0] == id){ // 완제품 배열과 현재클릭된 완제품을 비교하여 해당 index선택
+                            col_s = $.merge(p,(JSON.parse('<%-JSON.stringify(mat_s)%>')[ind])); //함수를 통해 배열형태로 리턴된 값에 [ind]를 붙혀 해당 완제품 배열과 완제품 소재 수량을 합침 || [완제품1,완제품1수량,완제품1 소재1 수량,완제품1 소재2 수량] 형태
+                            cate = (<%-JSON.stringify(mat_n)%>[ind]); // 차트에 표현될 카테고리로 사용하기 위해 해당 완제품의 소재 명을 추출한 배열값 대입
                             console.log(cate);
                         }
                     });
@@ -169,7 +169,7 @@
                         ],
                     });
                     c_id = id;
-                    barChart.categories($.merge(["\"완제품\""],cate)); // 변동
+                    barChart.categories($.merge(["\"완제품\""],cate)); // [완제품,완제품 소재1 제품명,완제품 소재2 제품명]의 형태
                 }
             },
             color: {
