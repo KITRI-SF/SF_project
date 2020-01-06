@@ -2,8 +2,8 @@ module.exports = (app, p) => {
     const express = require('express');
     const router = express.Router();
     const mysql = require('mysql');
-    const accountSid = 'ACc004c79e020198fd67984dc3469b50af';
-    const authToken = '2e597d0282a9bc7d77d2bdf8e6b17c60';
+    const accountSid = 'AC47db0031fce2223f2053ee7bcbad349e';
+    const authToken = '6960c038bfd989ef0643b795775b3ff3';
     const client = require('twilio')(accountSid, authToken);
 
     router.get('/aim',(req,res)=>{
@@ -86,7 +86,6 @@ module.exports = (app, p) => {
                             }
                             connection.release();
                             console.log("success");
-
                             res.render('index',{redirect:`'/'`});
                         });
                     }); 
@@ -94,7 +93,7 @@ module.exports = (app, p) => {
             });
         }
         else{
-            res.render('index',{redirect:`'/'`});
+            res.send("잘못된 접근 입니다.");
         }
     });
 
@@ -102,27 +101,26 @@ module.exports = (app, p) => {
         let auth = req.query.key == 'ryo@ctat!frmas$ritki';
         if(auth){
             var numbersToMessage;
-            // sample: numbersToMessage = ["+82 10-2377-5817", "+82 10-2931-2131"];
-            numbersToMessage = ["+82 10-2377-5817", "+82 10-2931-2131"];
+            numbersToMessage = ["+82 10-3896-8041", "+82 10-2931-2131"];
             let data = {};
             numbersToMessage.forEach(function(number, ind){
                 var message = client.messages.create({
                     body: '공장에서 가스 누출이 감지되었습니다!',
-                    from: '+19255218810',
+                    from: '+12015033503',
                     to: number
                 })
                 .then(message =>  console.log(message.status))
                 .done();
                 data[`p${ind}`] =   {
                     body: '공장에서 가스 누출이 감지되었습니다!',
-                    from: '+19255218810',
+                    from: '+12015033503',
                     to: number
                 }
             });
             res.send(data);
         }
         else{
-            res.render('index',{redirect:`'/'`});
+            res.send("잘못된 접근 입니다.");
         }
     });
 
@@ -169,19 +167,7 @@ module.exports = (app, p) => {
             });
         }
         else{
-            res.render('index',{redirect:`'/'`});
-        }
-    });
-    
-    router.get('/test',(req,res)=>{
-        let auth = req.query.key == 'ryo@ctat!frmas$ritki';
-        if(auth){
-            console.log("working..");
-            res.render('index',{redirect:`'/'`});
-        }
-        else {
-            console.log("Check your key");
-            res.render('index',{redirect:`'/'`});
+            res.send("잘못된 접근 입니다.");
         }
     });
 
@@ -190,32 +176,113 @@ module.exports = (app, p) => {
         let command = req.query.command;
         console.log(`command:${command} || ${typeof(command)}`);
         if(auth){
-            switch(command) {
-                case '0':
-                    console.log("천장 닫기");
-                    break;
-                case '1':
-                    console.log("천장 열기");
-                    break;
-                case '2':
-                    console.log("난방 실생");
-                    break;
-                case '3':
-                    console.log("난방 중지");
-                    break;
-                case '4':
-                    console.log("제습 실행");
-                    break;
-                case '5':
-                    console.log("제습 중지");
-                    break;
-                case '6':
-                    console.log("조명 켜기");
-                    break;
-                case '7':
-                    console.log("조명 끄기");
-                    break;
-            }
+            p.getConnection((err,connection)=>{
+                if(err) {
+                    connection.release();
+                    throw err;
+                }
+                let selectQuery = `
+                    select is_auto from machine_status;
+                `;
+                connection.query(selectQuery,(err,results)=>{
+                    if(err) {
+                        connection.release();
+                        throw err;
+                    }
+                    let is_auto = new Array();
+                    results.forEach(result => {
+                        is_auto.push(result.is_auto);
+                    });
+                    console.log(is_auto);
+                    let updateQuery =``;
+                    switch(command) {
+                        case '0':
+                            if(is_auto[2]) break;
+                            updateQuery = `
+                                update machine_status set status = 0 where sensor_id = 3;
+                            `;
+                            connection.query(updateQuery,(err,result)=>{
+                                if(err){
+                                    connection.release();
+                                    throw err;
+                                }
+                                connection.release();
+                            });
+                            console.log("천장 닫기");
+                            break;
+                        case '1':
+                            if(is_auto[2]) break;
+                            updateQuery = `
+                                update machine_status set status = 1 where sensor_id = 3;
+                            `;
+                            connection.query(updateQuery,(err,result)=>{
+                                if(err){
+                                    connection.release();
+                                    throw err;
+                                }
+                                connection.release();
+                            });
+                            console.log("천장 열기");
+                            break;
+                        case '2':
+                            if(is_auto[0]) break;
+                            updateQuery = `
+                                update machine_status set status = 1 where sensor_id = 1;
+                            `;
+                            connection.query(updateQuery,(err,result)=>{
+                                if(err){
+                                    connection.release();
+                                    throw err;
+                                }
+                                connection.release();
+                            });
+                            console.log("냉난방 실생");
+                            break;
+                        case '3':
+                            if(is_auto[0]) break;
+                            updateQuery = `
+                                update machine_status set status = 0 where sensor_id = 1;
+                            `;
+                            connection.query(updateQuery,(err,result)=>{
+                                if(err){
+                                    connection.release();
+                                    throw err;
+                                }
+                                connection.release();
+                            });
+                            console.log("냉난방 중지");
+                            break;
+                        case '4':
+                            if(is_auto[1]) break;
+                            updateQuery = `
+                                update machine_status set status = 1 where sensor_id = 2;
+                            `;
+                            connection.query(updateQuery,(err,result)=>{
+                                if(err){
+                                    connection.release();
+                                    throw err;
+                                }
+                                connection.release();
+                            });
+                            console.log("제습 실행");
+                            break;
+                        case '5':
+                            if(is_auto[1]) break;
+                            updateQuery = `
+                                update machine_status set status = 0 where sensor_id = 2;
+                            `;
+                            connection.query(updateQuery,(err,result)=>{
+                                if(err){
+                                    connection.release();
+                                    throw err;
+                                }
+                                connection.release();
+                            });
+                            console.log("제습 중지");
+                            break;
+                    }
+                });
+            });
         }
         res.render('index',{redirect:`'/'`});
     });

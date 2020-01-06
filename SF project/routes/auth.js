@@ -62,7 +62,7 @@ module.exports = function(app, p){
                     });
                 }
                 else{
-                    res.render('testlogin',{auth:false});
+                    res.render('login',{auth:false});
                 }
             });
         });
