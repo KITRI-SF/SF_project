@@ -101,7 +101,7 @@ module.exports = (app, p) => {
         let auth = req.query.key == 'ryo@ctat!frmas$ritki';
         if(auth){
             var numbersToMessage;
-            numbersToMessage = ["+82 10-3896-8041", "+82 10-2931-2131"];
+            numbersToMessage = ["번호n1", "번호n2"];
             let data = {};
             numbersToMessage.forEach(function(number, ind){
                 var message = client.messages.create({
